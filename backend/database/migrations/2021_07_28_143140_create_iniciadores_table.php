@@ -15,12 +15,18 @@ class CreateIniciadoresTable extends Migration
     {
         Schema::create('iniciadores', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->foreignId('id_tipo_entidad')->constrained('tipos_entidad');
+            $table->foreignId('id_tipo_entidad')->constrained('tipos_entidad'); //TODO cambiar para seguir la nomenclatura?
             $table->string('nombre');
+            $table->string('apellido')->nullable();
+            $table->string('telefono')->nullable();
+            $table->bigInteger('dni')->nullable();
+            $table->bigInteger('cuil')->nullable();
             $table->bigInteger('cuit')->nullable();
             $table->string('area_reparticiones')->nullable();
-            $table->string('prefijo');
+            $table->string('email')->nullable();
+            $table->string('direccion')->nullable();
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

@@ -20,9 +20,14 @@ class IniciadorController extends Controller
         $iniciador = new Iniciador;
         $iniciador->id_tipo_entidad = $request->tipo_entidad;
         $iniciador->nombre = $request->nombre;
+        $iniciador->apellido = $request->apellido;
+        $iniciador->telefono = $request->telefono;
+        $iniciador->dni = $request->dni;
+        $iniciador->cuil = $request->cuil;
         $iniciador->cuit = $request->cuit;
         $iniciador->area_reparticiones = $request->area_reparticiones;
-        $iniciador->prefijo = $request->prefijo;
+        $iniciador->email = $request->email;
+        $iniciador->direccion = $request->direccion;
         $iniciador->save();
         return 'guardado';
     }

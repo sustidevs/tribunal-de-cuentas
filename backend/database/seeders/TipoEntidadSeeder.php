@@ -13,7 +13,8 @@ class TipoEntidadSeeder extends Seeder
         'Ministerios y Reparticiones',
         'Entes Autárquicos y Descentralizados',
         'Entes de Carácter Comercial – Sociedades del Estado',
-        'Cuentas Especiales'
+        'Cuentas Especiales',
+        'Persona Física'
     ];
 
     /**
