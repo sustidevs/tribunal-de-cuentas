@@ -85,8 +85,8 @@ class ExpedienteController extends Controller
                         $historial = new Historial;
                         $historial->expediente_id = $expediente->id;
                         $historial->user_id = $user->id;
-                        $historial->area_origen_id = 6;
-                        $historial->area_destino_id = 6;
+                        $historial->area_origen_id = 13;
+                        $historial->area_destino_id = 13;
                         $historial->fojas = $request->nro_fojas;
                         $historial->fecha = Carbon::now()->format('Y-m-d');
                         $historial->hora = Carbon::now()->format('h:i');
@@ -100,7 +100,7 @@ class ExpedienteController extends Controller
                             $historial = new Historial;
                             $historial->expediente_id = $expediente->id;
                             $historial->user_id = $request->input("user_id");
-                            $historial->area_origen_id = $request->area_id;
+                            $historial->area_origen_id = 13;
                             $historial->area_destino_id = $request->area_id;
                             $historial->fojas = $request->nro_fojas;
                             $historial->fecha = Carbon::now()->format('Y-m-d');

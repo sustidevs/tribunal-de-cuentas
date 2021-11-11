@@ -26,7 +26,7 @@
                 </v-row>
 
                 <v-row class="tex" justify="start">
-                    <v-col cols="12" sm="12" lg="4" class="px-5">
+                    <v-col cols="12" sm="12" lg="6" class="px-5">
                         <div class="d-flex column d-flex-sm row">
                             <p class="pt-5 pr-3">TESORERO:</p>
                             <v-text-field
@@ -37,7 +37,7 @@
                         </div>
                     </v-col>
 
-                    <v-col cols="12" sm="12" lg="4" class="px-5">
+                    <v-col cols="12" sm="12" lg="6" class="px-5">
                         <div class="d-flex column d-flex-sm row">
                             <p class="pt-5 pr-3">OBJETO:</p>
                             <v-text-field
@@ -48,7 +48,7 @@
                         </div>
                     </v-col>
 
-                    <v-col cols="12" sm="12" lg="4" class="px-5">
+                    <v-col cols="12" sm="12" lg="6" class="px-5">
                         <div class="d-flex column d-flex-sm row">
                             <p class="pt-5 pr-3">PLAZO:</p>
                             <v-text-field

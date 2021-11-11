@@ -42,7 +42,7 @@
                         </div>
                     </v-col>
 
-                    <v-col cols="12" sm="12" lg="4" class="px-5">
+                    <v-col cols="12" sm="12" lg="6" class="px-5">
                         <div class="d-flex column d-flex-sm row">
                             <p class="pt-5 pr-3">IMPORTE: $</p>
                             <v-text-field
@@ -53,7 +53,7 @@
                         </div>
                     </v-col>
 
-                    <v-col cols="12" sm="12" lg="4" class="px-5">
+                    <v-col cols="12" sm="12" lg="6" class="px-5">
                         <div class="d-flex column d-flex-sm row">
                             <p class="pt-5 pr-3">N° DE RECLAMO:</p>
                             <v-text-field
@@ -64,7 +64,7 @@
                         </div>
                     </v-col>
 
-                    <v-col cols="12" sm="12" lg="4" class="px-5">
+                    <v-col cols="12" sm="12" lg="6" class="px-5">
                         <div class="d-flex column d-flex-sm row">
                             <p class="pt-5 pr-3">DISPOSICIÓN:</p>
                             <v-text-field
