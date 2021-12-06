@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\api;
 
 use ZipArchive;
-use Carbon\Carbon;
 use App\Models\Area;
 use App\Models\User;
 use App\Models\Caratula;
@@ -18,6 +17,7 @@ use Illuminate\Support\Arr;
 use App\Models\Notificacion;
 use Illuminate\Http\Request;
 use App\Models\TipoExpediente;
+use Illuminate\Support\Carbon;
 use App\Models\PrioridadExpediente;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
@@ -186,7 +186,7 @@ class ExpedienteController extends Controller
     public function union(Request $request)
     {
         $exp_padre = Expediente::findOrFail($request->exp_padre);
-        $exp_hijo = Expediente::findOrFail($request->exp_hijo);
+        $exp_hijo = Expediente::findOrFail($request->exp_hijos);
 
         if($exp_hijo->expediente_id == "")
         {
