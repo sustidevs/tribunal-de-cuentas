@@ -44,7 +44,8 @@ class StoreIniciadorRequest extends FormRequest
             'cuil.digits_between'       => 'Debe ingresar un número de 11 dígitos.',
             'telefono.integer'          => 'Solo puede ingresar números.',
             'telefono.digits_between'   => 'Debe ingresar entre 7 y 15 números.',
-            'email.email'               => 'Ingrese un mail válido.',
+            'email.email'               => 'Ingrese un email válido.',
+            'email.max'                 => 'Email demasiado largo',
             'direccion.max'             => 'Máximo 50 caracteres.'
         ];
     }

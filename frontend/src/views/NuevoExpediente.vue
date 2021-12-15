@@ -112,7 +112,10 @@
         ></v-textarea>
       </div>
 
-      <v-row no-gutters justify="end">
+      <v-row no-gutters justify="start">
+        <v-col cols="12" sm="12" lg="6">
+          <label-error :texto="this.pase_a_error" />
+        </v-col>
         <v-col cols="12" sm="12" lg="6" class="pl-lg-2">
           <label-error :texto="this.prioridad_error" />
         </v-col>
@@ -165,7 +168,13 @@
       <v-card color="#FFF5E6" class="pa-5">
         <label-input texto="Adjuntar Archivos al Pase" />
         <input type="file" multiple @change="handleFileUpload($event)" />
+        <modal-error-tipo-archivo
+          :show="showArchivoError"
+          ref="myFileInput"
+          @close="closeModalErrorArchivo"
+        />
       </v-card>
+      <v-progress-linear :active="this.$store.getters.get_btn_creado" indeterminate color="yellow darken-3"></v-progress-linear>
 
       <v-row no-gutters justify="center" class="py-16">
         <v-col cols="12" sm="6" md="6" lg="6" class="px-sm-2">
@@ -177,12 +186,17 @@
             color="#FACD89"
             block
             :disabled="this.$store.getters.get_btn_creado"
+            @click="overlay = !overlay"
           >
             <v-icon class="px-5"> mdi-check-bold </v-icon>
             <div class="">Confirmar</div>
           </v-btn>
         </v-col>
       </v-row>
+
+      <v-overlay :value="this.$store.getters.get_btn_creado">
+        <v-progress-circular indeterminate size="64"></v-progress-circular>
+      </v-overlay>
     </form>
     <modal-nuevos-expedientes
       :show="creado"
@@ -200,6 +214,7 @@ import TextField from "../components/TextField";
 import AutocompleteField from "../components/AutocompleteField";
 import ModalNuevosExpedientes from "../components/dialogs/ModalNuevosExpedientes";
 import LabelError from "../components/LabelError";
+import ModalErrorTipoArchivo from "../components/dialogs/ModalErrorTipoArchivo";
 
 export default {
   name: "Home",
@@ -211,6 +226,7 @@ export default {
     Extractos,
     ModalNuevosExpedientes,
     LabelError,
+    ModalErrorTipoArchivo,
   },
   data: () => ({
     radioGroup: 1,
@@ -220,7 +236,7 @@ export default {
     ],
     motivo: [],
     showDetalle: false,
-    files: "",
+    files: "dasdas",
     loader: null,
     expe: {
       iniciador_id: "",
@@ -232,7 +248,7 @@ export default {
       area_id: "",
       archivos: "",
     },
-    from_submitting: false,
+    showArchivoError: false,
   }),
 
   methods: {
@@ -244,9 +260,9 @@ export default {
     handleFileUpload(event) {
       this.files = event.target.files;
 
-      if (event.target.files[0].type === "application/x-msdownload"){
-        this.files = "";
-        console.log("no rei")
+      if (event.target.files[0].type === "application/x-msdownload") {
+        this.showArchivoError = !this.showArchivoError;
+        event.target.value = null;
       }
     },
 
@@ -274,6 +290,10 @@ export default {
       this.storeExpediente(formData);
     },
 
+    closeModalErrorArchivo() {
+      this.showArchivoError = false;
+    },
+
     ...mapActions([
       "getCreate",
       "storeExpediente",
@@ -291,7 +311,6 @@ export default {
       "fecha",
       "motivoSinExtracto",
 
-      "get_alle",
       "expediente",
       "getTipoUsuario",
       "motivoConExtracto",
@@ -301,7 +320,7 @@ export default {
       "iniciador_id_error",
       "nro_fojas_error",
       "prioridad_error",
-      "motivo_error",
+      "pase_a_error",
       "expediente_new",
 
       "get_btn_creado",

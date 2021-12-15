@@ -73,13 +73,17 @@
         </v-card>
       </v-col>
     </v-row>
+    <modal-exito-desglose :show="show"/>
   </div>
 </template>
 
 <script>
 import {mapActions, mapGetters} from "vuex";
+import ModalExitoDesglose from '../../components/dialogs/ModalExitoDesglose';
 
 export default {
+  components:{ModalExitoDesglose},
+
   props: {
     headers: Array,
     data: Array,
@@ -92,6 +96,7 @@ export default {
       search: "",
       exp_padreSeleccionado: '',
       id_padre: '',
+      show: false,
     };
   },
 
@@ -109,6 +114,7 @@ export default {
         user_id:  this.$store.getters.getIdUser
       }
       this.desglose(expedientes_englose)
+      this.show = true
     },
 
     quitar (item){

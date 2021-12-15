@@ -16,7 +16,7 @@ class CreateCedulasTable extends Migration
         Schema::create('cedulas', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->foreignId('expediente_id')->constrained('expedientes');
-            $table->string('descripcion')->nullable();
+            $table->unsignedBigInteger('descripcion')->unique();
             $table->timestamps();
         });
     }

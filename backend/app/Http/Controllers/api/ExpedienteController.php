@@ -378,6 +378,7 @@ class ExpedienteController extends Controller
         $historial_ultimo_hijo->fecha = Carbon::now()->format('Y-m-d');
         $historial_ultimo_hijo->hora = Carbon::now()->format('h:i');
         $historial_ultimo_hijo->motivo = "desgloce";
+        $nro_expediente = $ultimo_hijo->nro_exèdiente;
         $historial_ultimo_hijo->estado = "3";
         $historial_ultimo_hijo->save();
         $exp_padre->fojas = $exp_padre->fojas - $historial_ultimo_hijo->fojas;
@@ -453,6 +454,7 @@ class ExpedienteController extends Controller
             //$exp_padre->save();
             $historial->save();
             $fojas_hijos_acum = $fojas_hijos_acum + $exp_hijo->fojas;
+            $nros_expediente = $nro_expediente . ", ". $exp_hijo->nro_expediente . ", ";
         }
         $exp_padre->fojas = $exp_padre->fojas - $fojas_hijos_acum;
         $exp_padre->save();
@@ -464,10 +466,10 @@ class ExpedienteController extends Controller
         $historial_padre->fojas = $exp_padre->fojas;
         $historial_padre->fecha = Carbon::now()->format('Y-m-d');
         $historial_padre->hora = Carbon::now()->format('h:i');
-        $historial_padre->motivo = "desgloce";
+        $historial_padre->motivo = "Los expedientes :" . $exp_padre->nro_expediente. ", ". $nros_expediente . "se han desglosado.";
         $historial_padre->estado = "3";
         $historial_padre->save();
-        return response()->json("Exitoooo");
+        return response()->json($historial_padre->motivo,200);
     }
 
     /*
@@ -803,10 +805,5 @@ class ExpedienteController extends Controller
         return response()->json($detalle, 200);
     }
     */
-
-    /*public function notificarExpediente(Request $request)
-    {
-        $contar = Expediente::notificacion($user_id, $tipo_expediente);
-    }*/
 
 }

@@ -6,6 +6,7 @@ use App\Models\Cedula;
 use App\Models\Expediente;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\StoreCedulaRequest;
 
 class CedulaController extends Controller
 {
@@ -22,7 +23,7 @@ class CedulaController extends Controller
         return response()->json($create_cedula,200);
     }
 
-    public function store(Request $request)
+    public function store(StoreCedulaRequest $request)
     {
         $cedula = new Cedula;
         $cedula->expediente_id = $request->expediente_id;

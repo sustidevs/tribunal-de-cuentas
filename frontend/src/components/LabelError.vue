@@ -11,7 +11,7 @@
 <script>
 export default {
   props: {
-    texto: Array ,
+    texto: String ,
   },
 
   computed: {

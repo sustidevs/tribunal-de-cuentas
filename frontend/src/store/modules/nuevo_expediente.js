@@ -15,6 +15,7 @@ const state = {
     iniciador_iderror: '',
     nro_fojaserror: '',
     prioridaderror: '',
+    pase_a_error: '',
 
     btn_creado: false,
 };
@@ -34,6 +35,7 @@ const getters = {
     iniciador_id_error: state => state.iniciador_iderror,
     nro_fojas_error:  state => state.nro_fojaserror,
     prioridad_error:  state => state.prioridaderror,
+    pase_a_error:  state => state.pase_a_error,
 
     get_btn_creado: state => state.btn_creado,
 };
@@ -82,6 +84,8 @@ const actions = {
                 commit('set_iniciador_id_error', error.response.data.errors.iniciador_id)
                 commit('set_nro_fojas_error', error.response.data.errors.nro_fojas)
                 commit('set_prioridad_error', error.response.data.errors.prioridad_id)
+                commit('set_pase_a_error', error.response.data.errors.area_id)
+                commit('set_btn_creado', false)
             })
     },
 };
@@ -101,6 +105,7 @@ const mutations = {
     set_iniciador_id_error: (state,iniciador_iderror ) => state.iniciador_iderror = iniciador_iderror,
     set_nro_fojas_error:  (state,nro_fojaserror ) => state.nro_fojaserror = nro_fojaserror,
     set_prioridad_error:  (state,prioridaderror ) => state.prioridaderror = prioridaderror,
+    set_pase_a_error:  (state,pase_a_error ) => state.pase_a_error = pase_a_error,
     
     set_btn_creado:(state,btn_creado) =>state.btn_creado = btn_creado,
 };

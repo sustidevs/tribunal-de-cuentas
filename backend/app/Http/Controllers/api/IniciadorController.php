@@ -7,6 +7,7 @@ use App\Models\TipoEntidad;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreIniciadorRequest;
+use App\Http\Requests\UpdateIniciadorRequest;
 
 class IniciadorController extends Controller
 {
@@ -67,16 +68,16 @@ class IniciadorController extends Controller
         return response()->json($iniciador, 200);
     }
 
-    public function update(Request $request)
+    public function update(UpdateIniciadorRequest $request)
     {
-        //if($request->validated()) //TODO para cuando haya validaciones
-        //{
+        if($request->validated())
+        {
             $updateIniciador = Iniciador::findOrFail($request->id);
             $updateIniciador->telefono = $request->telefono;
             $updateIniciador->email = $request->email;
             $updateIniciador->direccion = $request->direccion;
             $updateIniciador->save();
             return response()->json($updateIniciador, 200);
-        //}
+        }
     }
 }
