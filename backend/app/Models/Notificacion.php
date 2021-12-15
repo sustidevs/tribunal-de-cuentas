@@ -4,7 +4,6 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\DB;
 
 class Notificacion extends Model
 {
@@ -54,27 +53,5 @@ class Notificacion extends Model
                                 'estado'            => $this->estado,
                             ]);
         return $array_notificacion;
-    }
-
-
-    public static function listadoExpedientesSubsidioAporteNR()
-    {
-        $expedientes = DB::table('notificaciones')
-                    ->join('expedientes', 'expedientes.id', '=', 'notificaciones.expediente_id')
-                    ->join('prioridad_expedientes', 'expedientes.prioridad_id', '=', 'prioridad_expedientes.id')
-                    ->join('caratulas', 'expedientes.id', '=', 'caratulas.expediente_id')
-                    ->join('estado_expedientes', 'expedientes.estado_expediente_id', '=', 'estado_expedientes.id')
-                    ->join('extractos', 'caratulas.extracto_id', '=', 'extractos.id')
-                    ->join('tipo_expedientes', 'expedientes.tipo_expediente', '=', 'tipo_expedientes.id')
-                    ->where('estado', '=', 1)
-                    ->select('expedientes.nro_expediente as nroExpediente',
-                             'expedientes.fecha as fecha_creacion',
-                             'prioridad_expedientes.descripcion as prioridad',
-                             'extractos.descripcion as extracto',
-                             'tipo_expedientes.descripcion as tipoExpediente',
-                             'expedientes.fojas as cantFojas',
-                             DB::raw('ceil(expedientes.fojas / 200) as cantCuerpos'))                 
-            ->get();
-        return $expedientes;
     }
 }

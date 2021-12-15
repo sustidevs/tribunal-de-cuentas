@@ -280,13 +280,13 @@ class ExpedienteController extends Controller
                 $expediente->save();
                 $historial->save();
             }
-            if ($request->tipo_exp_id == 3 || $request->tipo_exp_id == 4)
+            if ($request->tipo_exp_id == 3 || $request->tipo_exp_id == 4) //TODO verificar si funciona
             {
                 $notificacion = new Notificacion;
                 $notificacion->expediente_id = $expediente->id;
                 $notificacion->user_id = $request->user_id;
                 $notificacion->fecha = Carbon::now()->format('Y-m-d');
-                $notificacion->estado = "1"; 
+                $notificacion->estado = "1"; //Pendiente
                 $notificacion->save();
             }
             DB::commit();
@@ -551,49 +551,6 @@ class ExpedienteController extends Controller
                     $posee_archivo];
         return response()->json($detalle,200);
     }
-
-    /**
-     * Método que muestra detalle de expedientes de subsidios(tipo:3) y AporteNoReintegrable(tipo:4)
-     * para áreas de Registraciones(área:6) y Notificaciones(área:14)
-     * @param: user_id
-     * @param: expediente_id
-     */
-    public function show_subsidios_apNR(Request $request)
-    {
-        $expediente = Expediente::where('expediente_id',null)->findOrFail($request->expediente_id);
-        $iniciador = $expediente->caratula->iniciador;
-        $extracto = $expediente->caratula->extracto;
-        $fecha_sistema = $expediente->created_at->format('Y-m-d');
-        $fecha_exp = $expediente->fecha;
-        $nro_cuerpos = $expediente->cantidadCuerpos();
-        $fojas = $expediente->fojas;
-        if ($expediente->archivos == '')
-        {
-            $posee_archivo = '';
-        }
-        else
-        {
-            $posee_archivo = "si";
-        }
-        $detalle = [$expediente->nro_expediente,
-                    $iniciador->nombre,
-                    $extracto->descripcion,
-                    $fecha_sistema,
-                    $fecha_exp,
-                    $nro_cuerpos,
-                    $fojas,
-                    $posee_archivo];
-        
-        
-        $notificacion = new Notificacion();
-        $notificacion->expediente_id = $request->expediente_id;
-        $notificacion->user_id = $request->user_id;
-        $notificacion->fecha = Carbon::now()->format('Y-m-d');
-
-
-        return response()->json($detalle,200);
-    }
-
     /*
         Metodo para validar las extensiones de los archivos que se van a adjuntar al zip.
     */
@@ -691,15 +648,26 @@ class ExpedienteController extends Controller
     }
 
     /**
+     * Método para notificar al área de Registraciones y Notificaciones cantidad que
+     * ha ingresado de expedientes con motivo Subsidio o Aporte no reintegrable
+     * @params: user_id
+     * A: MF
+     */
+    public function contadorSubsidioAporteNR()
+    {
+        $contador = Expediente::listadoExpedientesSubsidioAporteNR()->count();
+        return response()->json($contador, 200);
+    }
+
+    /**
      * Método para mostrar información de expedientes con motivo Subsidio y Aporte no reintegrable
      * para  Registraciones(área:6) y Notificaciones(área:14)
      * A: MF
      */
     public function expSubsidiosNoReintegrables()
     {
-        $expedientes = Notificacion::listadoExpedientesSubsidioAporteNR();
-        return response()->json($expedientes);        
-
+        $expedientes = Expediente::listadoExpedientesSubsidioAporteNR();
+        return response()->json($expedientes);
     }
 
     /*
@@ -791,7 +759,7 @@ class ExpedienteController extends Controller
     /*
     - Método que retorna el detalle del expediente para mostrarlo en bandeja de entrada antes de aceptar
     - @param: expediente_id
-    
+    */
     public function showDetalleExpediente(Request $request)
     {
         $expediente = Expediente::findOrFail($request);
@@ -802,7 +770,6 @@ class ExpedienteController extends Controller
         }
         return response()->json($detalle, 200);
     }
-    */
 
     /*public function notificarExpediente(Request $request)
     {
