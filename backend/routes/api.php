@@ -27,6 +27,7 @@ use App\Http\Controllers\api\NotificacionController;
 |Cuando se implemente middleware usar auth:sanctum en lugar de auth:api
 */
 
+
 Route::middleware('auth:sanctum')->group(function () {
     Route::get('/salir',[LoginController::class, 'logout'] );
 });
@@ -56,7 +57,7 @@ Route::post('/storeIniciador',      [IniciadorController::class, 'store']);
 
 Route::post('/ListadoExp',       [ExpedienteController::class, 'bandeja']);
 Route::post('/contarExp',         [ExpedienteController::class, 'contadorBandejaEntrada']);
-    
+
 Route::post('/contarSubsidioAporteNR', [NotificacionController::class, 'contadorSubsidioAporteNR']);
 
 Route::post('/expSubsidiosNoReintegrables', [ExpedienteController::class, 'expSubsidiosNoReintegrables']);

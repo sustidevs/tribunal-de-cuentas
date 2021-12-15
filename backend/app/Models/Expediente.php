@@ -343,10 +343,4 @@ class Expediente extends Model
             ->get();
         return $expedientes;
     }
-    */
-
-    public static function listadoExpedientesSubsidioAporteNR()
-    {
-
-    }
 }
