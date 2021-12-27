@@ -8,6 +8,7 @@ use App\Models\Historial;
 use App\Models\Iniciador;
 use Illuminate\Http\Request;
 use App\Models\EstadoExpediente;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -111,7 +112,7 @@ class Expediente extends Model
                         'cantidad'          => $expediente->cedulas()->count()
             ]);
         }
-        return $array;        
+        return $array;
     }
 
     /*
@@ -181,7 +182,7 @@ class Expediente extends Model
                         ->joinSub($area_origen, 'areaOrigen', function($join)
                         {
                             $join->on('expedientes.id', '=', 'areaOrigen.expediente_id');
-                        })     
+                        })
                         ->join('prioridad_expedientes', 'prioridad_expedientes.id', '=', 'expedientes.prioridad_id')
                         ->join('caratulas', 'expedientes.id', '=', 'caratulas.expediente_id')
                         ->join('extractos', 'caratulas.extracto_id', '=', 'extractos.id')
@@ -229,7 +230,7 @@ class Expediente extends Model
                         ->join('extractos', 'extractos.id', '=', 'caratulas.extracto_id')
                         ->join('tipo_expedientes', 'tipo_expedientes.id', '=', 'expedientes.tipo_expediente')
                         ->join('areas', 'areas.id', '=', 'expedientes.area_actual_id')
-                        ->select(   'expedientes.id as id', 
+                        ->select(   'expedientes.id as id',
                                     'prioridad_expedientes.descripcion as prioridad',
                                     'expedientes.nro_expediente',
                                     'extractos.descripcion as extracto',
@@ -259,7 +260,6 @@ class Expediente extends Model
         $Expedientes = Expediente::where('expediente_id', null)->get();
         $user = User::findOrFail($user_id);
         $array_expediente = collect([]);
-
         foreach ($Expedientes as $exp)
         {
             switch ($bandeja)
@@ -330,6 +330,165 @@ class Expediente extends Model
         return $array_expediente;
     }
 
+
+    public static function listadoExpedientes_new($user_id, $estado, $bandeja)
+    {
+        switch ($bandeja)
+        {
+            case "1":
+            case "3": #MI EXPEDIENTE
+//                $area_destino_id = $exp->area_actual_id;
+//                $area_destino = $exp->area->descripcion;
+//                $estado_expediente = $exp->estado_expediente_id;
+
+            $areaOrigen = DB::table('historiales')
+                ->select('expediente_id',
+                    DB::raw('MAX(fecha) as fecha'),
+                    'area_origen.id as area_origen_id',
+                    'area_origen.descripcion as area_origen_descripcion',
+                    'area_destino.id as area_destino_id',
+                    'area_destino.descripcion as area_destino_descripcion',
+                    'historiales.estado',
+                    'historiales.observacion'
+                )
+                ->join('areas as area_origen', 'area_origen.id', '=', 'historiales.area_origen_id')
+                ->join('areas as area_destino', 'area_destino.id', '=', 'historiales.area_destino_id')
+                ->join('users', 'users.id', '=', 'historiales.user_id')
+                ->join('areas as area_u','area_u.id', '=', 'users.area_id')
+                //->where('area_origen_id', 'area_u.area_id')
+                ->where('users.id', '=', $user_id)
+                ->where('historiales.estado', '=', $estado)
+                ->groupBy('historiales.expediente_id',
+                    'fecha',
+                    'area_origen.id',
+                    'area_origen_descripcion',
+                    'area_destino.id',
+                    'area_destino_descripcion',
+                    'historiales.estado',
+                    'historiales.observacion'
+                )
+            ;
+
+            $query = DB::table('expedientes')
+                ->select('expedientes.id',
+                    'prioridad_expedientes.descripcion as prioridad',
+                    'expedientes.nro_expediente',
+                    'extractos.descripcion as extracto',
+                    'expedientes.fecha as fecha_creacion',
+                    'tipo_expedientes.descripcion as tramite',
+                    DB::raw('ceil(expedientes.fojas / 200) as cant_cuerpos'),
+                    "expedientes.fojas as fojas",
+                    "iniciadores.nombre as iniciador",
+                    "iniciadores.cuit as cuit_iniciador",
+                    'areaOrigen.area_origen_id as area_origen_id',
+                    'areaOrigen.area_origen_descripcion as area_origen',
+                    'areaOrigen.area_destino_id as area_destino_id',
+                    'areaOrigen.area_destino_descripcion as area_destino',
+                    'areaOrigen.estado as estado',
+                    'expedientes.archivos as archivo'
+                )
+                ->where('expedientes.expediente_id', '=', null)
+                //->where('area_origen_id', '=', null)
+                //->where('expedientes.id', '=', '34')
+                ->joinSub($areaOrigen, 'areaOrigen', function($join)
+                {
+                    $join->on('expedientes.id', '=', 'areaOrigen.expediente_id');
+                })
+                ->join('prioridad_expedientes', 'prioridad_expedientes.id', '=', 'expedientes.prioridad_id')
+                ->join('caratulas', 'expedientes.id', '=', 'caratulas.expediente_id')
+                ->join('extractos', 'caratulas.extracto_id', '=', 'extractos.id')
+                ->join('tipo_expedientes', 'expedientes.tipo_expediente', '=', 'tipo_expedientes.id')
+                ->join("iniciadores", "iniciadores.id", "=", 'caratulas.iniciador_id')
+
+                ->get();
+                break;
+            case "4":     #BANDEJA DE ENTRADA O #ENVIADOS
+//                $area_destino_id = $exp->historiales->last()->areaDestino->id;
+//                $area_destino = $exp->historiales->last()->areaDestino->descripcion;
+//                $estado_expediente = $exp->historiales->last()->estado;
+
+
+            $areaOrigen = DB::table('historiales')
+                ->select('expediente_id',
+                            //DB::raw('MAX(fecha) as fecha'),
+                            'area_origen.id as area_origen_id',
+                            'area_origen.descripcion as area_origen_descripcion',
+                            'area_destino.id as area_destino_id',
+                            'area_destino.descripcion as area_destino_descripcion',
+                            'historiales.created_at'
+                           //'historiales.estado',
+                            //'historiales.observacion'
+
+                )
+                ->join('areas as area_origen', 'area_origen.id', '=', 'historiales.area_origen_id')
+                ->join('areas as area_destino', 'area_destino.id', '=', 'historiales.area_destino_id')
+
+                ->join('users', 'users.id', '=', 'historiales.user_id')
+                ->join('areas as area_u','area_u.id', '=', 'users.area_id')
+                //->where('area_origen_id', 'area_u.area_id')
+                ->where('users.id', '=', $user_id)
+                ->where('historiales.estado', '=', $estado)
+                ->groupBy('historiales.expediente_id',
+                    'fecha',
+                    'area_origen.id',
+                    'area_origen_descripcion',
+                    'area_destino.id',
+                    'area_destino_descripcion',
+                    'historiales.created_at'
+                    //'historiales.estado',
+                    //'historiales.observacion'
+                    )
+                //->orderBy('historiales.created_at', 'desc')
+                ->get()
+            ;
+                return $areaOrigen;
+
+            $query = DB::table('expedientes')
+                ->select('expedientes.id',
+                    'prioridad_expedientes.descripcion as prioridad',
+                    'expedientes.nro_expediente',
+                    'extractos.descripcion as extracto',
+                    'expedientes.fecha as fecha_creacion',
+                    'tipo_expedientes.descripcion as tramite',
+                    DB::raw('ceil(expedientes.fojas / 200) as cant_cuerpos'),
+                    "expedientes.fojas as fojas",
+                    "iniciadores.nombre as iniciador",
+                    "iniciadores.cuit as cuit_iniciador",
+                    'expedientes.fojas',
+                    'areaOrigen.area_origen_id as area_origen_id',
+                    'areaOrigen.area_origen_descripcion as area_origen',
+                    'areaOrigen.area_destino_id as area_destino_id',
+                    'areaOrigen.area_destino_descripcion as area_destino',
+                    'areaOrigen.estado as estado',
+                    'expedientes.archivos as archivo'
+//                    "area.observacion as observacion_pase"
+                )
+                ->where('expedientes.expediente_id', '=', null)
+                //->where('area_origen_id', '=', null)
+                //->where('expedientes.id', '=', '34')
+                ->joinSub($areaOrigen, 'areaOrigen', function($join)
+                {
+                    $join->on('expedientes.id', '=', 'areaOrigen.expediente_id');
+                })
+
+//                ->joinSub($areaDestino, 'areaDestino', function($join)
+//                {
+//                    $join->on('expedientes.id', '=', 'areaDestino.expediente_id');
+//                })
+                ->join('prioridad_expedientes', 'prioridad_expedientes.id', '=', 'expedientes.prioridad_id')
+                ->join('caratulas', 'expedientes.id', '=', 'caratulas.expediente_id')
+                ->join('extractos', 'caratulas.extracto_id', '=', 'extractos.id')
+                ->join('tipo_expedientes', 'expedientes.tipo_expediente', '=', 'tipo_expedientes.id')
+
+                //->join('areas', 'areas.id', '=', 'users.area_id')
+                ->join("iniciadores", "iniciadores.id", "=", 'caratulas.iniciador_id')
+                //->orderBy('area.fecha')
+                ->get();
+                break;
+
+        }
+        return $query;
+    }
     /*
     * Busca por nro de la tabla pagos
     */
@@ -419,7 +578,7 @@ class Expediente extends Model
                      'tipo_expedientes.descripcion as tipoExpediente',
                      'expedientes.fojas as cantFojas',
                      DB::raw('truncate((expedientes.fojas / 200), 0) + 1 as cantCuerpos'))
-            ->where('expedientes.tipo_expediente',3) 
+            ->where('expedientes.tipo_expediente',3)
             ->get();
         return $expedientes;
     }

@@ -286,7 +286,7 @@ class ExpedienteController extends Controller
                 $notificacion->expediente_id = $expediente->id;
                 $notificacion->user_id = $request->user_id;
                 $notificacion->fecha = Carbon::now()->format('Y-m-d');
-                $notificacion->estado = "1"; 
+                $notificacion->estado = "1";
                 $notificacion->save();
             }
             DB::commit();
@@ -626,8 +626,8 @@ class ExpedienteController extends Controller
                     $nro_cuerpos,
                     $fojas,
                     $posee_archivo];
-        
-        
+
+
         $notificacion = new Notificacion();
         $notificacion->expediente_id = $request->expediente_id;
         $notificacion->user_id = $request->user_id;
@@ -720,16 +720,25 @@ class ExpedienteController extends Controller
 
     public function bandeja(Request $request)//entrada,area,mis expedientes,enviado,recuperados
     {
-        $estado = $request->estado;//parametro
+        $estado = $request->estado; //parametro
         $bandeja = $request->bandeja;
         $user_id = $request->user_id;
         $listado_expedientes = Expediente::listadoExpedientes($user_id,$estado,$bandeja);
         return response()->json($listado_expedientes,200);
     }
 
+    public function bandeja_new(Request $request)//entrada,area,mis expedientes,enviado,recuperados
+    {
+        $estado = $request->estado; //parametro
+        $bandeja = $request->bandeja;
+        $user_id = $request->user_id;
+        $listado_expedientes = Expediente::listadoExpedientes_new($user_id,$estado,$bandeja);
+        return response()->json($listado_expedientes,200);
+    }
+
     public function contadorBandejaEntrada(Request $request)
     {
-        $contador = Expediente::listadoExpedientes($request->user_id,1,1)->count();
+        $contador = Expediente::listadoExpedientes_new($request->user_id,1,1);
         return response()->json($contador, 200);
     }
 
@@ -741,7 +750,7 @@ class ExpedienteController extends Controller
     public function expSubsidiosNoReintegrables()
     {
         $expedientes = Notificacion::listadoExpedientesSubsidioAporteNR();
-        return response()->json($expedientes);        
+        return response()->json($expedientes);
 
     }
 
@@ -844,7 +853,7 @@ class ExpedienteController extends Controller
     /*
     - Método que retorna el detalle del expediente para mostrarlo en bandeja de entrada antes de aceptar
     - @param: expediente_id
-    
+
     public function showDetalleExpediente(Request $request)
     {
         $expediente = Expediente::findOrFail($request);

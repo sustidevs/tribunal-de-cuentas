@@ -56,8 +56,9 @@ Route::post('/storeIniciador',      [IniciadorController::class, 'store']);
 //BANDEJAS//////////////////////////////////////////////////////////////////////////////////
 
 Route::post('/ListadoExp',       [ExpedienteController::class, 'bandeja']);
+Route::post('/ListadoExp_new',       [ExpedienteController::class, 'bandeja_new']);
 Route::post('/contarExp',         [ExpedienteController::class, 'contadorBandejaEntrada']);
-    
+
 Route::post('/contarSubsidioAporteNR', [NotificacionController::class, 'contadorSubsidioAporteNR']);
 
 Route::post('/expSubsidiosNoReintegrables', [ExpedienteController::class, 'expSubsidiosNoReintegrables']);
