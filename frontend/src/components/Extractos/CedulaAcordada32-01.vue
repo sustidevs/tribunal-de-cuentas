@@ -79,7 +79,7 @@
                 <v-row class="tex" justify="start">
                     <v-col cols="12" sm="12" lg="6" class="px-5">
                         <div class="d-flex column d-flex-sm row">
-                            <p class="pt-5">INICIADOR: {{ nombreIniciador }}</p>
+                            <p class="pt-5">INICIADOR: {{ iniciador.nombre }}</p>
                         </div>
                     </v-col>
 
@@ -129,10 +129,22 @@
 </template>
 
 <script>
-import {mapActions, mapGetters} from "vuex";
+import {mapActions} from "vuex";
 
 export default {
     name: 'CedulaAcordada32-01',
+
+  props: {
+    iniciador: {
+      value: "No ha seleccionado ningun Iniciador",
+      type: Object
+    },
+
+    motivo: {
+      value: "No ha seleccionado aún",
+      type: Object
+    }
+  },
 
     data () {
       return {
@@ -144,31 +156,16 @@ export default {
         input4: '',
         input5: '',
         input6: '',
-        nombreIniciador: '',
       }
-    },
-
-    computed: {
-        ... mapGetters(['get_iniciadorSelected','allIniciadores']),
-    },
-
-    mounted(){
-        this.cargariniciador()
     },
 
     methods: {
         cargaExtracto() {
             this.isEditing = !this.isEditing
             this.hasSaved = true
-            const extracto = "E/JUICIO DE CTAS.DE OFICIO A: "+ this.input1 + ". MES: " + this.input2 + ". AÑO: " + this.input3 + ". ACORDADA N° 32/2001. IMPORTE: $" + this. input4 + ". N° DE RECLAMO: " + this.input5 + ". DISPOSICIÓN: " + this.input6 + ". CÉDULA ACORDADA 32/01" + ". INICIADOR: " + this.nombreIniciador
+            const extracto = "E/JUICIO DE CTAS.DE OFICIO A: "+ this.input1 + ". MES: " + this.input2 + ". AÑO: " + this.input3 + ". ACORDADA N° 32/2001. IMPORTE: $" + this. input4 + ". N° DE RECLAMO: " + this.input5 + ". DISPOSICIÓN: " + this.input6 + ". CÉDULA ACORDADA 32/01" + ". INICIADOR: " + this.iniciador.nombre
             this.extracto(extracto)
         },
-
-        cargariniciador(){
-            let nombrei = this.allIniciadores.find( item => item.id === this.get_iniciadorSelected)
-            this.nombreIniciador = nombrei.nombre
-        },
-
         ...mapActions([
             'extracto',
         ]),

@@ -4,58 +4,58 @@
       <extracto-loading/>
     </div>
     <div v-if="tipo==1">
-      <fondo-permanente/>
+      <fondo-permanente :iniciador="iniciador" :motivo="motivo"/>
     </div>
     <div v-if="tipo==2">
-      <fondo-permantente-cancelacion/>
+      <fondo-permantente-cancelacion :iniciador="iniciador" :motivo="motivo"/>
     </div>
     <div v-if="tipo==3">
-      <subsidio/>
+      <subsidio :iniciador="iniciador" :motivo="motivo"/>
     </div>
     <div  v-if="tipo==4">
-      <aporte-no-reintegrable/>
+      <aporte-no-reintegrable :iniciador="iniciador" :motivo="motivo"/>
     </div>
     <!-- ID 5 - Balances -->
     <!-- ID 6 - Memorias -->
-    <div v-if="tipo==7" >
+    <div v-if="tipo===7" >
       <!-- Acordada N° 32/2001 Espontánea -->
-      <acordada3201/>
+      <acordada3201 :iniciador="iniciador" :motivo="motivo"/>
     </div>
     <div v-if="tipo==8 || tipo==10 || tipo==13 || tipo==15 || tipo==20">
-      <acordadas-en-general/>
+      <acordadas-en-general :iniciador="iniciador" :motivo="motivo"/>
     </div>
     <div v-if="tipo == 9" >
-      <acordada-08-05/>
+      <acordada-08-05 :iniciador="iniciador" :motivo="motivo"/>
     </div>
     <div v-if="tipo == 11" >
-      <notas/>
+      <notas />
     </div>
     <!-- ID 12 - Cuenta de inversión -->
     <!-- ID 14 - Arancelamiento -->
     <!-- ID 16 - Fondo federal solidario -->
     <div v-if="tipo == 17" >
-      <requerimiento/>
+      <requerimiento :iniciador="iniciador" :motivo="motivo"/>
     </div>
     <div v-if="tipo == 18" >
-      <oficio/>
+      <oficio :iniciador="iniciador" :motivo="motivo"/>
     </div>
     <!-- ID 19 - FO.E.SE -->
     <div v-if="tipo==21" >
-      <cedula-acordada-32-01/>
+      <cedula-acordada-32-01 :iniciador="iniciador" :motivo="motivo"/>
     </div>
     <!-- ID 22 - Sueldos -->
     <!-- ID 23 - Cédula de Registraciones -->
     <div v-if="tipo==24" >
-      <cedula-cambio-responsable/>
+      <cedula-cambio-responsable :iniciador="iniciador" :motivo="motivo"/>
     </div>
     <div v-if="tipo==25" >
-      <extracto-general/>
+      <extracto-general :iniciador="iniciador" :motivo="motivo"/>
     </div>
     <div v-if="tipo==26" >
-      <acordadas-en-general/>
+      <acordadas-en-general :iniciador="iniciador" :motivo="motivo"/>
     </div>
     <div v-if="(tipo===5) || (tipo===6) || (tipo===12) || (tipo===14) || (tipo===16) || (tipo===19) || (tipo===22) || (tipo===23)" >
-     <general/>
+     <general :iniciador="iniciador" :motivo="motivo"/>
     </div>
 
   </div>
@@ -77,6 +77,7 @@ import CedulaAcordada3201 from "./CedulaAcordada32-01";
 import CedulaCambioResponsable from "./CedulaCambioResponsable";
 import ExtractoGeneral from "./ExtractoGeneral";
 import General from "./General";
+import {mapGetters} from "vuex";
 
 export default {
   name: 'Extractos',
@@ -99,6 +100,18 @@ export default {
     CedulaCambioResponsable,
     ExtractoGeneral,
     General
-  }
+  },
+
+  computed: {
+    ... mapGetters(['get_iniciadorSelected','allIniciadores','get_motivo_selected','motivoSinExtracto']),
+
+    iniciador: function () {
+      return  this.allIniciadores.find( item => item.id === this.get_iniciadorSelected)
+    },
+
+    motivo: function () {
+      return  this.motivoSinExtracto.find( item => item.id === this.get_motivo_selected)
+    },
+  },
 }
 </script>

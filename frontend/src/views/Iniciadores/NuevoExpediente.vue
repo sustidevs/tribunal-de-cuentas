@@ -38,12 +38,25 @@
       <v-row no-gutters justify="start">
         <v-col cols="12" sm="12" lg="6" class="pr-lg-2">
           <label-input texto="Iniciador *" />
+
+          <!--
+          <autocomplete-field
+              nombre="nombre"
+              label="email"
+              @input="cargarExpediente"
+              :data="$store.state.nuevo_expediente.iniciadores"
+              :value="$store.state.nuevo_expediente.iniciadorSelected"
+          ></autocomplete-field>
+          />-->
+
+
           <autocomplete-field
             :data="allIniciadores"
             nombre="nombre"
             @input="cargarExpediente()"
             v-model="expe.iniciador_id"
-          />
+        ></autocomplete-field>
+
         </v-col>
 
         <v-col cols="12" sm="12" lg="6" class="pl-lg-2">
@@ -62,8 +75,9 @@
       <v-row no-gutters justify="start" class="py-3">
         <v-col cols="12" sm="12" lg="6" class="pr-lg-2">
           <LabelInput texto="Motivo del Expediente *" />
+
           <autocomplete-field
-              @input="capturarMotivoP()"
+            @input="setMotivo"
             :data="motivoSinExtracto"
             nombre="descripcion"
             v-model="expe.tipo_exp_id"
@@ -274,8 +288,8 @@ export default {
       this.capturarIniciador(this.expe.iniciador_id);
     },
 
-    capturarMotivoP(){
-      this.capturarMotivo(this.expe.tipo_exp_id);
+    setMotivo() {
+      this.capturarMotivo(this.expe.tipo_exp_id)
     },
 
     handleFileUpload(event) {
@@ -327,6 +341,8 @@ export default {
 
   computed: {
     ...mapGetters([
+        'get_motivo_selected',
+        'get_iniciadorSelected',
       'creado_exito',
       "extracto",
       "allIniciadores",
@@ -346,7 +362,10 @@ export default {
       "get_btn_creado",
     ]),
 
+
     //si el valor de nro expediente cambia, se ejecuta la funcion y el componente reacciona a los cambios
+
+
     nroExpediente: {
       get() {
         return this.$store.getters.nro_expediente;

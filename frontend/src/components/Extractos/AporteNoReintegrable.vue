@@ -39,7 +39,7 @@
                 <v-row class="tex" justify="start">
                     <v-col cols="12" sm="12" lg="6" class="px-5">
                         <div class="d-flex column d-flex-sm row">
-                            <p class="pt-5">INICIADOR: {{ nombreIniciador }}</p>
+                            <p class="pt-5">INICIADOR: {{ iniciador.nombre }}</p>
                         </div>
                     </v-col>
 
@@ -89,10 +89,22 @@
 </template>
 
 <script>
-import {mapActions, mapGetters} from "vuex";
+import {mapActions} from "vuex";
 
 export default {
     name: 'AporteNoReintegrable',
+
+  props: {
+    iniciador: {
+      value: "No ha seleccionado ningun Iniciador",
+      type: Object
+    },
+
+    motivo: {
+      value: "No ha seleccionado aún",
+      type: Object
+    }
+  },
 
     data () {
         return {
@@ -101,29 +113,15 @@ export default {
             input1: '',
             input2: '',
             input3: '',
-            nombreIniciador: '',
         }
-    },
-
-    computed: {
-        ... mapGetters(['get_iniciadorSelected','allIniciadores']),
-    },
-
-    mounted(){
-        this.cargariniciador()
     },
 
     methods: {
         cargaExtracto() {
             this.isEditing = !this.isEditing
             this.hasSaved = true
-            const extracto = "E/REND.CTAS.APORTE NO REINTEGRABLE. GTOS: "+ this.input1 + ". DCTO: " + this.input2 + ". IMPORTE: $" + this.input3 + ". APORTE NO REINTEGRABLE" + ". INICIADOR: " + this.nombreIniciador
+            const extracto = "E/REND.CTAS.APORTE NO REINTEGRABLE. GTOS: "+ this.input1 + ". DCTO: " + this.input2 + ". IMPORTE: $" + this.input3 + ". APORTE NO REINTEGRABLE" + ". INICIADOR: " + this.iniciador.nombre
             this.extracto(extracto)
-        },
-
-        cargariniciador(){
-            let nombrei = this.allIniciadores.find( item => item.id === this.get_iniciadorSelected)
-            this.nombreIniciador = nombrei.nombre
         },
 
         ...mapActions([

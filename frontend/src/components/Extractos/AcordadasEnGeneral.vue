@@ -61,7 +61,7 @@
                 <v-row class="tex" justify="start">
                     <v-col cols="12" sm="12" lg="6" class="px-5">
                         <div class="d-flex column d-flex-sm row">
-                            <p class="pt-5">INICIADOR: {{ nombreIniciador }}</p>
+                            <p class="pt-5">INICIADOR: {{ iniciador.nombre }}</p>
                         </div>
                     </v-col>
 
@@ -111,10 +111,22 @@
 </template>
 
 <script>
-import {mapActions, mapGetters} from "vuex";
+import {mapActions} from "vuex";
 
 export default {
   name: 'AcordadasEnGeneral',
+
+  props: {
+    iniciador: {
+      value: "No ha seleccionado ningun Iniciador",
+      type: Object
+    },
+
+    motivo: {
+      value: "No ha seleccionado aún",
+      type: Object
+    }
+  },
 
   data () {
       return {
@@ -125,31 +137,17 @@ export default {
         input3: '',
         input4: '',
         input5: '',
-        nombreIniciador: '',
       }
     },
 
-    computed: {
-        ... mapGetters(['get_iniciadorSelected','allIniciadores']),
-    },
-
-    mounted(){
-        this.cargariniciador()
-    },
 
     methods: {
         cargaExtracto() {
             this.isEditing = !this.isEditing
             this.hasSaved = true
-            const extracto = "E/REND.CTAS.ACORDADA: "+ this.input1 + ". MES: " + this.input2 + ". AÑO: " + this.input3 + ". NORMAL LEGAL: " + this. input4 + ". IMPORTE: $" +  this.input5 + ". ACORDADAS EN GENERAL" + ". INICIADOR: " + this.nombreIniciador
+            const extracto = "E/REND.CTAS.ACORDADA: "+ this.input1 + ". MES: " + this.input2 + ". AÑO: " + this.input3 + ". NORMAL LEGAL: " + this. input4 + ". IMPORTE: $" +  this.input5 + ". ACORDADAS EN GENERAL" + ". INICIADOR: " + this.iniciador.nombre
             this.extracto(extracto)
         },
-
-        cargariniciador(){
-            let nombrei = this.allIniciadores.find( item => item.id === this.get_iniciadorSelected)
-            this.nombreIniciador = nombrei.nombre
-        },
-
         ...mapActions([
             'extracto',
         ]),

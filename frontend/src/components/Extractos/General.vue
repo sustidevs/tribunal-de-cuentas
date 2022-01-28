@@ -1,6 +1,7 @@
 <template>
   <form @submit.prevent="cargaExtracto()" >
     <v-card color="#FACD89" outlined>
+
       <div class="pa-6">
         <v-textarea
             placeholder="Complete el extracto ..... "
@@ -14,13 +15,13 @@
         <v-row class="tex" justify="start">
           <v-col cols="12" sm="12" lg="6" class="px-5">
             <div class="d-flex column d-flex-sm row">
-              <p class="pt-5">INICIADOR: {{ nombreIniciador }}</p>
+              <p class="pt-5">INICIADOR: {{ iniciador.nombre }}</p>
             </div>
           </v-col>
 
           <v-col cols="12" sm="12" lg="6">
             <div class="d-flex justify-end">
-              <p class="pt-5">{{ motivoSeleccionado }}</p>
+              <p class="pt-5">{{ motivo.descripcion }}</p>
             </div>
           </v-col>
         </v-row>
@@ -64,46 +65,37 @@
   </form>
 </template>
 <script>
-import {mapActions, mapGetters} from "vuex";
+import {mapActions} from "vuex";
 
 export default {
   name: 'Acordada32-01Espontanea',
+
+  props: {
+    iniciador: {
+      value: "No ha seleccionado ningun Iniciador",
+      type: Object
+    },
+
+    motivo: {
+      value: "No ha seleccionado aún",
+      type: Object
+    }
+  },
 
   data () {
     return {
       hasSaved: false,
       isEditing: true,
       input: '',
-      nombreIniciador: '',
-      motivoSeleccionado: '',
     }
-  },
-
-  computed: {
-    ... mapGetters(['get_iniciadorSelected','allIniciadores','get_motivo_selected','motivoSinExtracto']),
-  },
-
-  mounted(){
-    this.cargariniciador()
-    this.cargarMotivo()
   },
 
   methods: {
     cargaExtracto() {
       this.isEditing = !this.isEditing
       this.hasSaved = true
-      const extracto = this.input + " " + this.motivoSeleccionado + "   " + this.nombreIniciador
+      const extracto = this.input + " " + this.motivo.descripcion + "   " + this.iniciador.nombre
       this.extracto(extracto)
-    },
-
-    cargarMotivo() {
-      let motivoi = this.motivoSinExtracto.find( item => item.id === this.get_motivo_selected)
-      this.motivoSeleccionado = motivoi.descripcion
-    },
-
-    cargariniciador(){
-      let nombrei = this.allIniciadores.find( item => item.id === this.get_iniciadorSelected)
-      this.nombreIniciador = nombrei.nombre
     },
 
     ...mapActions([

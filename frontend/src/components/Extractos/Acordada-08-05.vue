@@ -66,7 +66,7 @@
                 <v-row class="tex" justify="start">
                     <v-col cols="12" sm="12" lg="6" class="px-5">
                         <div class="d-flex column d-flex-sm row">
-                            <p class="pt-5">INICIADOR: {{ nombreIniciador }}</p>
+                            <p class="pt-5">INICIADOR: {{ iniciador.nombre }}</p>
                         </div>
                     </v-col>
 
@@ -117,10 +117,23 @@
 </template>
 
 <script>
-import {mapActions, mapGetters} from "vuex";
+import {mapActions} from "vuex";
 
 export default {
     name: 'Acordada08-05',
+
+    props: {
+      iniciador: {
+        value: "No ha seleccionado ningun Iniciador",
+        type: Object
+      },
+
+      motivo: {
+        value: "No ha seleccionado aún",
+        type: Object
+      }
+    },
+
     data () {
       return {
         hasSaved: false,
@@ -134,27 +147,13 @@ export default {
       }
     },
 
-    computed: {
-        ... mapGetters(['get_iniciadorSelected','allIniciadores']),
-    },
-
-    mounted(){
-        this.cargariniciador()
-    },
-
     methods: {
         cargaExtracto() {
             this.isEditing = !this.isEditing
             this.hasSaved = true
-            const extracto = "E/REND.CTAS.ACORDADA N° 08/05. LIBRAMIENTO DE ENTREGA. MES: " + this.input1 + ". AÑO: " + this.input2 + ". GTOS: " + this.input3 + ". NORMA LEGAL: " + this. input4 +  ". IMPORTE: $" + this. input5 +  ". ACORDADA N° 08/2005" + ". INICIADOR: " + this.nombreIniciador
+            const extracto = "E/REND.CTAS.ACORDADA N° 08/05. LIBRAMIENTO DE ENTREGA. MES: " + this.input1 + ". AÑO: " + this.input2 + ". GTOS: " + this.input3 + ". NORMA LEGAL: " + this. input4 +  ". IMPORTE: $" + this. input5 +  ". ACORDADA N° 08/2005" + ". INICIADOR: " + this.iniciador.nombre
             this.extracto(extracto)
         },
-
-        cargariniciador(){
-            let nombrei = this.allIniciadores.find( item => item.id === this.get_iniciadorSelected)
-            this.nombreIniciador = nombrei.nombre
-        },
-
         ...mapActions([
             'extracto',
         ]),
