@@ -40,19 +40,35 @@
           </v-chip>
         </template>
 
-        <template v-slot:item.action="{ item}">
+        <template v-slot:item.action1="{ }">
+          <v-btn @click="downloadPDF()" fab small color="#FACD89" depressed>
+            <v-icon> mdi-download </v-icon>
+          </v-btn>
+        </template>
+
+        <template v-slot:item.action2="{ item }">
           <v-btn @click="historial_expediente(item)" fab small color="#FACD89" depressed>
             <v-icon> mdi-eye </v-icon>
           </v-btn>
         </template>
       </v-data-table>
+
+      <modal-caratula
+        :show="show"
+        :dato="get_todos_expedientes"
+      />
   </div>
 </template>
 
 <script>
 import {mapActions} from "vuex";
+import ModalCaratula from "../../components/dialogs/ModalCaratula";
 
 export default {
+
+  components: {
+    ModalCaratula
+  },
   props: {
     headers: Array,
     data: Array,
@@ -63,6 +79,7 @@ export default {
     return {
       selected:[],
       search: '',
+      show: false,
     }
   },
 
@@ -78,9 +95,13 @@ export default {
     },
 
     ...mapActions([
-      'historial_expediente'
+      'historial_expediente', 'caratula'
     ]),
 
+    downloadPDF () {
+      this.$refs.DownloadComp.generatePdf()
+      this.show = true
+    },
   }
 }
 </script>

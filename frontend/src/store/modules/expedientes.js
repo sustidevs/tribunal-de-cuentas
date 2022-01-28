@@ -27,7 +27,6 @@ const getters = {
 }
 
 const actions = {
-
     //muestra el detalle en la linea del tiempo - seguimiento
     historial_expediente ({commit}, expediente) {
         axios.post(process.env.VUE_APP_API_URL+ '/api/historialExp', expediente)

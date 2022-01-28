@@ -229,6 +229,7 @@ class Expediente extends Model
                         ->join('extractos', 'extractos.id', '=', 'caratulas.extracto_id')
                         ->join('tipo_expedientes', 'tipo_expedientes.id', '=', 'expedientes.tipo_expediente')
                         ->join('areas', 'areas.id', '=', 'expedientes.area_actual_id')
+                        ->join('iniciadores','caratulas.iniciador_id', 'iniciadores.id')
                         ->select(   'expedientes.id as id', 
                                     'prioridad_expedientes.descripcion as prioridad',
                                     'expedientes.nro_expediente',
@@ -238,7 +239,11 @@ class Expediente extends Model
                                     'areas.descripcion as area_actual',
                                     DB::raw('ceil(expedientes.fojas / 200) as cantCuerpos'),
                                     'caratulas.id as caratula',
-                                    'expedientes.fojas')
+                                    'expedientes.fojas',
+                                    'iniciadores.nombre as iniciador_nombre',
+                                    'iniciadores.email',
+                                    'caratulas.observacion'
+                                    )
                         ->orderBy('expedientes.id', 'DESC')
                         ->get();
         return $expediente;
@@ -302,7 +307,7 @@ class Expediente extends Model
                 'motivo'=>$exp->historiales->sortByDesc('id')->skip(1)->take(1)->values(),
                 'observacion_pase'=>$exp->historiales->last()->observacion,
                 'hora'=>$exp->historiales->last()->hora,
-                'fecha'=>$exp->historiales->last()->fecha,
+                'fecha'=>$exp->historiales->last()->fecha
             ]);
 
         }
