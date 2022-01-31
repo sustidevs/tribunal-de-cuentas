@@ -67,7 +67,6 @@
         </v-col>
 
       </v-row>
-      
     </v-card>
 
     <VueHtml2pdf pdf-content-width="800px" :preview-modal="true" pdf-format="a4" :filename="dato[4]" :manual-pagination="true" :enable-download="true" ref="DownloadComp">

@@ -49,7 +49,6 @@
           ></autocomplete-field>
           />-->
 
-
           <autocomplete-field
             :data="allIniciadores"
             nombre="nombre"

@@ -18,7 +18,6 @@
       </v-col>
     </v-row>
 
-
       <v-data-table
           :headers="headers"
           :items="data"
@@ -40,8 +39,8 @@
           </v-chip>
         </template>
 
-        <template v-slot:item.action1="{ }">
-          <v-btn @click="downloadPDF()" fab small color="#FACD89" depressed>
+        <template v-slot:item.action1="{ item }">
+          <v-btn @click="caratula(item)" fab small color="#FACD89" depressed>
             <v-icon> mdi-download </v-icon>
           </v-btn>
         </template>
@@ -54,14 +53,14 @@
       </v-data-table>
 
       <modal-caratula
-        :show="show"
-        :dato="get_todos_expedientes"
+        :show="showCaratula"
+        :dato="datosCaratula"
       />
   </div>
 </template>
 
 <script>
-import {mapActions} from "vuex";
+import {mapActions, mapGetters} from "vuex";
 import ModalCaratula from "../../components/dialogs/ModalCaratula";
 
 export default {
@@ -79,9 +78,12 @@ export default {
     return {
       selected:[],
       search: '',
-      show: false,
+      showCaratula: false,
+      datosCaratula: {}
     }
   },
+
+  computed: mapGetters(['get_todos_expedientes']),
 
   methods: {
     getColor (prioridades) {
@@ -94,14 +96,14 @@ export default {
       else return 'mdi-check-bold'
     },
 
-    ...mapActions([
-      'historial_expediente', 'caratula'
-    ]),
-
-    downloadPDF () {
-      this.$refs.DownloadComp.generatePdf()
-      this.show = true
+    caratula(item) {
+      this.datosCaratula = item
+      this.showCaratula = true
     },
+
+    ...mapActions([
+      'historial_expediente',
+    ]),
   }
 }
 </script>
