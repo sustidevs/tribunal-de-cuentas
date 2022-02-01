@@ -115,43 +115,45 @@
       <div class="py-8 Montserrat-Bold  tituloModal">
         Carátula del expediente N° {{dato.nro_expediente}}
       </div>
-      <v-divider color="#393B44"></v-divider>
+      <v-divider color="#393B44" class="mb-6"></v-divider>
 
-      <v-row no-gutters class="mt-8">
-        <v-col cols="12">
-          <div class="Montserrat-Bold mb-2 sizeTM"> Iniciador:</div>
-          <div class="Montserrat-Regular mb-6 sizeDM text-responsive">{{ dato.iniciador_nombre }}</div>
-        </v-col>
-      </v-row>
+      <v-card rounded class="pa-4 text-responsive" color="#EEEEEE">
+        <v-row no-gutters>
+          <v-col cols="12">
+            <div class="Montserrat-Bold mb-2 sizeTM"> Iniciador:</div>
+            <div class="Montserrat-Regular mb-6 sizeDM text-responsive">{{ dato.iniciador_nombre }}</div>
+          </v-col>
+        </v-row>
 
-      <v-row no-gutters>
-        <v-col cols="12">
-          <div class="Montserrat-Bold mb-2 sizeTM"> Fecha:</div>
-          <div class="Montserrat-Regular mb-6 ml-1 sizeDM text-responsive"> {{ dato.fecha_creacion }}</div>
-        </v-col>
-      </v-row>
+        <v-row no-gutters>
+          <v-col cols="12">
+            <div class="Montserrat-Bold mb-2 sizeTM"> Fecha:</div>
+            <div class="Montserrat-Regular mb-6 ml-1 sizeDM text-responsive"> {{ dato.fecha_creacion }}</div>
+          </v-col>
+        </v-row>
 
-      <v-row no-gutters>
-        <v-col cols="12" v-if="dato.email !== null">
-          <div class="Montserrat-Bold mr-1 mb-2 sizeTM"> Email:</div>
-          <div class="Montserrat-Regular mb-6 sizeDM text-responsive">{{dato.email}}</div>
-        </v-col>
-      </v-row>
+        <v-row no-gutters>
+          <v-col cols="12" v-if="dato.email !== null">
+            <div class="Montserrat-Bold mr-1 mb-2 sizeTM"> Email:</div>
+            <div class="Montserrat-Regular mb-6 sizeDM text-responsive">{{dato.email}}</div>
+          </v-col>
+        </v-row>
 
-      <v-row no-gutters>
-        <v-col cols="12" md="12" sm="12" xs="12">
-          <div class="Montserrat-Bold mb-2 sizeTM"> Extracto:</div>
-          <div class="Montserrat-Regular mb-6  sizeDM text-responsive">{{ dato.extracto }}</div>
-        </v-col>
-      </v-row>
+        <v-row no-gutters>
+          <v-col cols="12" md="12" sm="12" xs="12">
+            <div class="Montserrat-Bold mb-2 sizeTM"> Extracto:</div>
+            <div class="Montserrat-Regular mb-6  sizeDM text-responsive">{{ dato.extracto }}</div>
+          </v-col>
+        </v-row>
 
-      <v-row no-gutters>
-        <v-col cols="12" md="12" sm="12" xs="12">
-          <div class="Montserrat-Bold mb-2 sizeTM">Observación:</div>
-          <div v-if="dato.observacion !== null" class="Montserrat-Regular mb-6  sizeDM text-responsive">{{dato.observacion}}</div>
-          <div v-else class="Montserrat-Regular mb-6  sizeDM text-responsive"> -</div>
-        </v-col>
-      </v-row>
+        <v-row no-gutters>
+          <v-col cols="12" md="12" sm="12" xs="12">
+            <div class="Montserrat-Bold mb-2 sizeTM">Observación:</div>
+            <div v-if="dato.observacion !== null" class="Montserrat-Regular mb-6  sizeDM text-responsive">{{dato.observacion}}</div>
+            <div v-else class="Montserrat-Regular mb-6  sizeDM text-responsive"> -</div>
+          </v-col>
+        </v-row>
+      </v-card>
 
       <v-row no-gutters justify="center" class="py-4">
 
