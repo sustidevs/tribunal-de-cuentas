@@ -55,60 +55,58 @@
           </section>
         </div>
 
-          <!-- <div class="container2">
+        <div class="container2">
+          <section>
+            <hr class="dashed">
+
             <section>
-              <hr class="dashed">
-
-              <section>
-                <div class="Montserrat-Bold sizeAll paddExp"> EXPEDIENTE Nº{{ dato.nro_expediente }} </div>
-              </section>
-
-              <section>
-                <div class="direction pad">
-                  <div class="Montserrat-SemiBold sizeAll pl"> Iniciador:</div>
-                  <div class="Montserrat-Regular pl-3 sizeAll"> {{ dato[0].iniciador_nombre }} </div>
-                </div>
-
-                <v-row no-gutters>
-                  <v-col sm="5">
-                    <div class="direction pad">
-                      <div class="Montserrat-SemiBold sizeAll pl">Fecha: </div>
-                      <div class="Montserrat-Regular sizeAll">{{ dato[0].fecha_creacion }}</div>
-                    </div>
-                  </v-col>
-                  <v-col sm="7">
-                    <div class="direction pad" v-if="dato[0].email !== null">
-                      <div class="Montserrat-SemiBold sizeAll pl"> Email:</div>
-                      <div class="Montserrat-Regular pl-3 sizeAll"> {{ dato[0].email }}</div>
-                    </div>
-                  </v-col>
-                </v-row>
-              
-
-                <v-row no-gutters class="py-5 direction pad">
-                  <v-col cols="12" sm="12" lg="12">
-                    <div class="Montserrat-SemiBold sizeAll">Extracto:</div>
-                  </v-col>
-                  <v-col cols="11" sm="11" lg="12">
-                    <div class="Montserrat-Regular sizeAll">{{ dato[0].extracto }}</div>
-                  </v-col>
-                </v-row>
-
-                <v-row no-gutters class="py-5 direction pad" v-if="dato[0].observacion !== null">
-                  <v-col cols="12" sm="12" lg="12">
-                    <div class="Montserrat-SemiBold sizeAll">Observación:</div>
-                  </v-col>
-                  <v-col cols="11" sm="11" lg="12">
-                    <div class="Montserrat-Regular sizeAll text-justify">{{ dato[0].observacion }}</div>
-                  </v-col>
-                </v-row>
-              </section>
-
+              <div class="Montserrat-Bold sizeAll paddExp"> EXPEDIENTE Nº{{ dato.nro_expediente }} </div>
             </section>
-          </div> -->
-        
-      </section>
 
+            <section>
+              <div class="direction pad">
+                <div class="Montserrat-SemiBold sizeAll pl"> Iniciador:</div>
+                <div class="Montserrat-Regular pl-3 sizeAll"> {{ dato.iniciador_nombre }} </div>
+              </div>
+
+              <v-row no-gutters>
+                <v-col sm="5">
+                  <div class="direction pad">
+                    <div class="Montserrat-SemiBold sizeAll pl">Fecha: </div>
+                    <div class="Montserrat-Regular sizeAll">{{ dato.fecha_creacion }}</div>
+                  </div>
+                </v-col>
+                <v-col sm="7">
+                  <div class="direction pad" v-if="dato.email !== null">
+                    <div class="Montserrat-SemiBold sizeAll pl"> Email:</div>
+                    <div class="Montserrat-Regular pl-3 sizeAll"> {{ dato.email }}</div>
+                  </div>
+                </v-col>
+              </v-row>
+            
+
+              <v-row no-gutters class="py-5 direction pad">
+                <v-col cols="12" sm="12" lg="12">
+                  <div class="Montserrat-SemiBold sizeAll">Extracto:</div>
+                </v-col>
+                <v-col cols="11" sm="11" lg="12">
+                  <div class="Montserrat-Regular sizeAll">{{ dato.extracto }}</div>
+                </v-col>
+              </v-row>
+
+              <v-row no-gutters class="py-5 direction pad" v-if="dato.observacion !== null">
+                <v-col cols="12" sm="12" lg="12">
+                  <div class="Montserrat-SemiBold sizeAll">Observación:</div>
+                </v-col>
+                <v-col cols="11" sm="11" lg="12">
+                  <div class="Montserrat-Regular sizeAll text-justify">{{ dato.observacion }}</div>
+                </v-col>
+              </v-row>
+            </section>
+
+          </section>
+        </div>
+      </section>
     </VueHtml2pdf>
 
 
@@ -127,20 +125,14 @@
       </v-row>
 
       <v-row no-gutters>
-        <v-col cols="12" md="6" sm="12" xs="12">
-          <div class="Montserrat-Bold mb-2 sizeTM"> Se derivó al área:</div>
-          <div v-if="!(dato.area_actual === undefined)">
-            <div class="Montserrat-Regular mb-6 sizeDM text-responsive">{{ dato.area_actual }}</div>
-          </div>
-        </v-col>
-        <v-col cols="12" md="6" sm="12" xs="12">
+        <v-col cols="12">
           <div class="Montserrat-Bold mb-2 sizeTM"> Fecha:</div>
           <div class="Montserrat-Regular mb-6 ml-1 sizeDM text-responsive"> {{ dato.fecha_creacion }}</div>
         </v-col>
       </v-row>
 
       <v-row no-gutters>
-        <v-col cols="12" v-if="dato.email !== '-'">
+        <v-col cols="12" v-if="dato.email !== null">
           <div class="Montserrat-Bold mr-1 mb-2 sizeTM"> Email:</div>
           <div class="Montserrat-Regular mb-6 sizeDM text-responsive">{{dato.email}}</div>
         </v-col>
@@ -156,19 +148,30 @@
       <v-row no-gutters>
         <v-col cols="12" md="12" sm="12" xs="12">
           <div class="Montserrat-Bold mb-2 sizeTM">Observación:</div>
-          <div class="Montserrat-Regular mb-6  sizeDM text-responsive">{{dato.observacion}}</div>
+          <div v-if="dato.observacion !== null" class="Montserrat-Regular mb-6  sizeDM text-responsive">{{dato.observacion}}</div>
+          <div v-else class="Montserrat-Regular mb-6  sizeDM text-responsive"> -</div>
         </v-col>
       </v-row>
 
       <v-row no-gutters justify="center" class="py-4">
 
         <v-col cols="12" lg="6" md="6" sm="12" class="px-sm-2 py-5 ">
+          <v-btn @click="close" type="submit" class="pa-5 color Montserrat-SemiBold sizeButton" height="55" elevation="0" color="#FACD89" block>
+            <v-icon class="px-4">
+              mdi-close-thick
+            </v-icon>
+            <div>
+              Cerrar
+            </div>
+          </v-btn>
+        </v-col>
+        <v-col cols="12" lg="6" md="6" sm="12" class="px-sm-2 py-5 ">
           <v-btn @click="downloadPDF" type="submit" class="pa-5 color Montserrat-SemiBold sizeButton" height="55" elevation="0" color="#FACD89" block>
             <v-icon class="px-4">
               mdi-printer
             </v-icon>
             <div>
-              Imprimir Caratula
+              Imprimir Carátula
             </div>
           </v-btn>
         </v-col>
@@ -195,9 +198,13 @@ export default {
   },
 
   methods: {
-
     downloadPDF () {
       this.$refs.DownloadComp.generatePdf()
+    },
+
+    close() {
+      this.$emit("close");
+      this.$router.go(0);
     },
   }
 

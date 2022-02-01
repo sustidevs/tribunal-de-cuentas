@@ -142,7 +142,8 @@ export default {
         {text: 'Trámite', value: 'tramite', widh: "5%", filter:this.motivoFilter},
         {text: 'Cuerpo', value: 'cantCuerpos', align: 'center'},
         {text: 'Fojas', value: 'fojas', align: 'center'},
-        {text: 'Historial', value: 'action', align: 'center', sortable: false},
+        {text: 'Carátula', value: 'action1', align: 'center', sortable: false},
+        {text: 'Historial', value: 'action2', align: 'center', sortable: false},
         {class: "display-4"},
       ],
     }
