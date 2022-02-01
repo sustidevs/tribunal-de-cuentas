@@ -638,4 +638,12 @@ class ExpedienteController extends Controller
         $user = $request->user();
         return response()->json($user, 200);
     }
+
+
+    public function indexMotivos(){
+        $motivoAll = TipoExpediente::all();
+        $areasAll = Area::all_areas();
+        return response()->json([$motivoAll, $areasAll], 200);
+    }
+
 }

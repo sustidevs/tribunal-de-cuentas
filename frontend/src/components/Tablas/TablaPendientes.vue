@@ -1,17 +1,66 @@
 <template>
   <div>
-    <v-row>
-      <v-col cols="12" sm="4">
-        <v-text-field color="#8D93AB" v-model="search" append-icon="mdi-magnify"
-            label="Buscar"
-            hide-details
-            outlined
-            class="py-6"
-        />
-      </v-col>
-    </v-row>
+
+    <v-card color="grey lighten-3" class="my-6 px-4 pa-5">
+      <div class="descripcion text-justify pb-2"> <strong>Búsqueda</strong> </div>
+      <v-row>
+        <v-col cols="12" xs="12" lg="3">
+          <v-text-field
+              append-icon="mdi-magnify"
+              v-model="nro_expediente"
+              label="N° DE EXPEDIENTE "
+              outlined
+              hide-details
+              class="Montserrat-Regular text-justify"
+              color="amber accent-4"
+          />
+        </v-col>
+
+        <v-col cols="12" xs="12" lg="3">
+          <v-autocomplete
+              append-icon="mdi-magnify"
+              class="Montserrat-Regular text-justify"
+              color="amber accent-4"
+              item-text="nombre"
+              v-model="area"
+              :items="get_areas_filtros"
+              outlined
+              label="AREA ORIGEN"
+              item-color="amber accent-4"
+              hide-details
+          ></v-autocomplete>
+        </v-col>
+
+        <v-col cols="12" xs="12" lg="3">
+          <v-autocomplete
+              append-icon="mdi-magnify"
+              class="Montserrat-Regular text-justify"
+              color="amber accent-4"
+              item-text="descripcion"
+              v-model="motivo"
+              :items="get_motivos"
+              outlined
+              label="TRÁMITE"
+              item-color="amber accent-4"
+              hide-details
+          ></v-autocomplete>
+        </v-col>
+
+        <v-col cols="12" xs="12" lg="3">
+          <v-text-field color="amber accent-4" v-model="search" append-icon="mdi-magnify"
+                        label="INICIADOR, FECHA , FOJAS  "
+                        hide-details
+                        outlined
+          />
+        </v-col>
+
+      </v-row>
+    </v-card>
 
       <v-data-table
+          :page.sync="page"
+          hide-default-footer
+          @page-count="pageCount = $event"
           :headers="headers"
           :items="items"
           :search="search"
@@ -47,6 +96,15 @@
 
       </v-data-table>
 
+    <div v-if="pageCount > 0" class="text-center pt-2">
+      <v-pagination
+          v-model="page"
+          :length="pageCount"
+          :total-visible="7"
+          color="amber accent-4 pb-2"
+      ></v-pagination>
+    </div>
+
       <modal-ver-detalle-exp
             :datos="datosSeleccionado"
             :show="show_modal"
@@ -56,7 +114,7 @@
 </template>
 
 <script>
-import {mapActions} from "vuex";
+import {mapActions, mapGetters} from "vuex";
 import ModalVerDetalleExp from "../../components/dialogs/ModalVerDetalleExp";
 
 export default {
@@ -68,17 +126,27 @@ export default {
 
   data () {
     return {
+      //filtros
+      nro_expediente: '',
+      motivo:'',
+      area:'',
+
+      //paginacion
+      page: 1,
+      pageCount: 0,
+
+
       selected:[],
       headers: [
         {text: 'Prioridad', value: 'prioridad'},
-        {text: 'Nro. de Expediente', value: 'nro_expediente'},
+        {text: 'N° de Expediente', value: 'nro_expediente',filter: this.nroExpedienteFilter},
         {text: 'Extracto', value: 'extracto', width: "33%"},
-        {text: 'Área Origen', value:'area_origen'},
-        {text: 'Trámite', value: 'tramite', width: "5%"},
-        {text: 'Fecha Creación', value: 'fecha_creacion', width: "5%"},
+        {text: 'Area Origen', value: 'area_origen', filter: this.areaActualFilter},
+        {text: 'Trámite', value: 'tramite', widh: "5%", filter:this.motivoFilter},
+        {text: 'Creación', value: 'fecha_creacion', width: "5%"},
         {text: 'Cuerpo', value: 'cant_cuerpos', align: 'center'},
         {text: 'Fojas', value: 'fojas', align: 'center'},
-        {text: 'Ver detalle', value: 'action1', align: 'center', sortable: false},
+        {text: 'Detalle', value: 'action1', align: 'center', sortable: false},
         {text: 'Aceptar', value: 'action', align: 'center', sortable: false},
       ],
       search: '',
@@ -88,9 +156,18 @@ export default {
     }
   },
 
+  computed: {
+    ... mapGetters(['get_motivos','get_areas_filtros']),
+  },
+
+  mounted() {
+    this.index_filtros();
+  },
+
   methods: {
     ...mapActions([
-      'cambiarEstado'
+      'cambiarEstado',
+      'index_filtros'
     ]),
 
     getColor (prioridades) {

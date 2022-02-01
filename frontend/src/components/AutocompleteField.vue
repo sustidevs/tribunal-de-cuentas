@@ -1,5 +1,6 @@
 <template>
   <v-autocomplete
+      :label="label"
       class="Montserrat-Regular text-justify"
       color="amber accent-4"
       outlined
@@ -18,6 +19,7 @@ export default {
   props: {
     data: Array,
     nombre: String,
+    label: String
   },
   data() {
     return { inputVal: this.value }

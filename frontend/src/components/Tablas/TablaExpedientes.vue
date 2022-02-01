@@ -1,27 +1,66 @@
 <template>
   <div>
+    <v-card color="grey lighten-3" class="my-6 px-4 pa-5">
+      <div class="descripcion text-justify pb-2"> <strong>Búsqueda</strong> </div>
+      <v-row>
+        <v-col cols="12" xs="12" lg="3">
+          <v-text-field
+              append-icon="mdi-magnify"
+              v-model="nro_expediente"
+              label="N° DE EXPEDIENTE "
+              outlined
+              hide-details
+              class="Montserrat-Regular text-justify"
+              color="amber accent-4"
+          />
+        </v-col>
 
-    <v-row>
-      <v-col
-          cols="12"
-          sm="4"
-      >
-        <v-text-field
-            color="#8D93AB"
-            v-model="search"
-            append-icon="mdi-magnify"
-            label="Buscar"
-            hide-details
-            outlined
-            class="py-6"
-        />
-      </v-col>
-    </v-row>
+        <v-col cols="12" xs="12" lg="3">
+          <v-autocomplete
+              append-icon="mdi-magnify"
+              class="Montserrat-Regular text-justify"
+              color="amber accent-4"
+              item-text="nombre"
+              v-model="area"
+              :items="get_areas_filtros"
+              outlined
+              label="AREA ACTUAL"
+              item-color="amber accent-4"
+              hide-details
+          ></v-autocomplete>
+        </v-col>
 
+        <v-col cols="12" xs="12" lg="3">
+          <v-autocomplete
+              append-icon="mdi-magnify"
+              class="Montserrat-Regular text-justify"
+              color="amber accent-4"
+              item-text="descripcion"
+              v-model="motivo"
+              :items="get_motivos"
+              outlined
+              label="TRÁMITE"
+              item-color="amber accent-4"
+              hide-details
+          ></v-autocomplete>
+        </v-col>
+
+        <v-col cols="12" xs="12" lg="3">
+          <v-text-field color="amber accent-4" v-model="search" append-icon="mdi-magnify"
+                        label="INICIADOR, FECHA , FOJAS  "
+                        hide-details
+                        outlined
+          />
+        </v-col>
+
+      </v-row>
+    </v-card>
       <v-data-table
+          :page.sync="page"
+          hide-default-footer
+          :search="search"
           :headers="headers"
           :items="data"
-          :search="search"
           :items-per-page="5"
           disable-sort
           mobile-breakpoint="300"
@@ -29,6 +68,7 @@
           loading-text="Cargando expedientes. Por favor, espere."
           :loading="loading"
           no-data-text="No tienes Expedientes"
+          @page-count="pageCount = $event"
       >
 
         <template v-slot:item.prioridad="{ item }">
@@ -46,7 +86,7 @@
         </template>
 
         <template v-slot:item.action2="{ item }">
-          <v-btn @click="historial_expediente(item)" fab small color="#FACD89" depressed>
+          <v-btn @click="historial_expediente(item)" fab small color="#FACD89" depressed title="Haga click para ver el historial del expediente">
             <v-icon> mdi-eye </v-icon>
           </v-btn>
         </template>
@@ -56,6 +96,15 @@
         :show="showCaratula"
         :dato="datosCaratula"
       />
+
+      <div v-if="pageCount > 0" class="text-center pt-2">
+        <v-pagination
+            v-model="page"
+            :length="pageCount"
+            :total-visible="7"
+            color="amber accent-4 pb-2"
+        ></v-pagination>
+      </div>
   </div>
 </template>
 
@@ -69,23 +118,88 @@ export default {
     ModalCaratula
   },
   props: {
-    headers: Array,
     data: Array,
     loading: {type: Boolean, default: false},
   },
 
   data () {
     return {
+      page: 1,
+      pageCount: 0,
       selected:[],
       search: '',
       showCaratula: false,
-      datosCaratula: {}
+      datosCaratula: {},
+      nro_expediente: '',
+      motivo:'',
+      area:'',
+      headers: [
+        {text: 'Prioridad', value: 'prioridad'},
+        {text: 'N° de Expediente', value: 'nro_expediente',filter: this.nroExpedienteFilter},
+        {text: 'Extracto', value: 'extracto', width: "33%"},
+        {text: 'Area Actual', value: 'area_actual', filter: this.areaActualFilter},
+        {text: 'Creación', value: 'fecha_creacion',align: 'center'},
+        {text: 'Trámite', value: 'tramite', widh: "5%", filter:this.motivoFilter},
+        {text: 'Cuerpo', value: 'cantCuerpos', align: 'center'},
+        {text: 'Fojas', value: 'fojas', align: 'center'},
+        {text: 'Historial', value: 'action', align: 'center', sortable: false},
+        {class: "display-4"},
+      ],
     }
   },
 
-  computed: mapGetters(['get_todos_expedientes']),
+  computed: {
+    ... mapGetters(['get_todos_expedientes', 'get_motivos','get_areas_filtros']),
+  },
+
+  mounted() {
+    this.index_filtros();
+  },
 
   methods: {
+
+    ...mapActions(['historial_expediente', 'index_filtros']),
+
+    nroExpedienteFilter(value) {
+      // If this filter has no value we just skip the entire filter.
+      if (!this.nro_expediente) {
+        return true;
+      }
+
+      // Check if the current loop value (The dessert name)
+      // partially contains the searched word.
+      return value.toLowerCase().includes(this.nro_expediente.toLowerCase());
+    },
+
+    /**
+     * Filter for calories column.
+     * @param value Value to be tested.
+     * @returns {boolean}
+     */
+    motivoFilter(value) {
+
+      // If this filter has no value we just skip the entire filter.
+      if (!this.motivo) {
+        return true;
+      }
+
+      // Check if the current loop value (The calories value)
+      // equals to the selected value at the <v-select>.
+      return value === this.motivo;
+    },
+
+    areaActualFilter(value) {
+
+      // If this filter has no value we just skip the entire filter.
+      if (!this.area) {
+        return true;
+      }
+
+      // Check if the current loop value (The calories value)
+      // equals to the selected value at the <v-select>.
+      return value === this.area;
+    },
+
     getColor (prioridades) {
       if (prioridades === 'alta') return 'red lighten-3'
       if (prioridades === 'normal') return 'grey lighten-2'
@@ -127,5 +241,10 @@ export default {
 .v-data-table > .v-data-table__wrapper > table > tbody > tr:hover{
   background-color: #FAE3BF !important;
 }
+
+.color_pagination{
+  color: #FACD89;
+}
+
 
 </style>

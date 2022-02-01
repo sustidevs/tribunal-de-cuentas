@@ -42,6 +42,8 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/indexExp',             [ExpedienteController::class, 'index']);
     Route::post('/ListadoExp',       [ExpedienteController::class, 'bandeja']);
     Route::post('/expSubsidiosNoReintegrables', [ExpedienteController::class, 'expSubsidiosNoReintegrables']);
+    Route::get('/all-motivos',       [ExpedienteController::class, 'indexMotivos']);
+
 
     /******* HISTORIAL **********/
     Route::post('/historial-expediente',    [HistorialController::class, 'store']);

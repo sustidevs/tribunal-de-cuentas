@@ -36,7 +36,7 @@ const actions = {
     },
 
     cantidadPendientes ({ commit }, usuario) {
-        axios.post(process.env.VUE_APP_API_URL+ '/api/contarExp', usuario)
+        axios.get(process.env.VUE_APP_API_URL+ '/api/contarExp', usuario)
             .then(response => {
                 commit('set_cantPendientes', response.data)
             })

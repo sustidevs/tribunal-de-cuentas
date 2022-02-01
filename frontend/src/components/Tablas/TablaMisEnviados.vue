@@ -15,6 +15,10 @@
     </v-row>
 
     <v-data-table
+        :page.sync="page"
+        hide-default-footer
+        @page-count="pageCount = $event"
+
         :headers="headers"
         :items="data"
         :search="search"
@@ -27,6 +31,16 @@
         no-data-text="No tienes expedientes enviados"
     >
     </v-data-table>
+
+    <div v-if="pageCount > 0" class="text-center pt-2">
+      <v-pagination
+          v-model="page"
+          :length="pageCount"
+          :total-visible="7"
+          color="amber accent-4 pb-2"
+      ></v-pagination>
+    </div>
+
   </div>
 </template>
 
@@ -41,6 +55,10 @@ export default {
 
   data() {
     return {
+
+      page: 1,
+      pageCount: 0,
+
       selected: [],
       search: "",
     };

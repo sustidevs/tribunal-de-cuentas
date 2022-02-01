@@ -15,6 +15,8 @@
     </v-row>
 
     <v-data-table
+        :page.sync="page"
+        hide-default-footer
       :headers="headers"
       :items="data"
       :search="search"
@@ -24,6 +26,7 @@
       class="elevation-1 mytable"
       loading-text="Cargando lista de iniciadores. Por favor, espere."
       :loading="loading"
+        @page-count="pageCount = $event"
       no-data-text="No hay iniciadores cargados en el sistema"
     >
       <template v-slot:item.action="{ item }">
@@ -32,6 +35,16 @@
           </v-btn>
       </template>
     </v-data-table>
+
+    <div v-if="pageCount > 0" class="text-center pt-2">
+      <v-pagination
+          v-model="page"
+          :length="pageCount"
+          :total-visible="7"
+          color="amber accent-4 pb-2"
+      ></v-pagination>
+    </div>
+
   </div>
 </template>
 
@@ -46,6 +59,8 @@ export default {
 
     data () {
         return {
+          page: 1,
+          pageCount: 0,
             search: "",
             headers: [
                 { text: 'Nombre', value: 'nombre' },

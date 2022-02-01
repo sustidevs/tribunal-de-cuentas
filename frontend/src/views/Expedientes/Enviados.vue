@@ -69,6 +69,6 @@ export default {
 <style>
 .descripcion {
   font-family: Montserrat-Regular;
-  font-size: 23px;
+  font-size: 20px;
 }
 </style>

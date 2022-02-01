@@ -1,6 +1,19 @@
 <template>
   <div class="pb-16">
-    <titulo texto="Nuevo Pase" icono="mdi-file-document" class="pb-8" />
+    <titulo texto="Nuevo Pase" icono="mdi-file-document" class="pb-5" />
+
+    <v-btn
+        class="pa-5 Montserrat-Bold mb-4"
+        height="45"
+        elevation="0"
+        color="#FACD89"
+        href="/mis-expedientes"
+    >
+      <v-icon class="mr-4"> mdi-arrow-left-bold</v-icon>
+      <div class="pr-5"> VOLVER A PASES</div>
+
+    </v-btn>
+
     <template>
       <form @submit.prevent="storePas()">
         <v-stepper v-model="e1" class="mb-16">

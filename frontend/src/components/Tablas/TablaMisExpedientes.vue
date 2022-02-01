@@ -1,20 +1,50 @@
 <template>
   <div>
-    <v-row>
-      <v-col cols="12" sm="4">
-        <v-text-field
-          color="#8D93AB"
-          v-model="search"
-          append-icon="mdi-magnify"
-          label="Buscar"
-          hide-details
-          outlined
-          class="py-6"
-        />
-      </v-col>
-    </v-row>
+    <v-card color="grey lighten-3" class="my-6 px-4 pa-5">
+      <div class="descripcion text-justify pb-2"> <strong>Búsqueda</strong> </div>
+      <v-row>
+        <v-col cols="12" xs="12" lg="4">
+          <v-text-field
+              append-icon="mdi-magnify"
+              v-model="nro_expediente"
+              label="N° DE EXPEDIENTE "
+              outlined
+              hide-details
+              class="Montserrat-Regular text-justify"
+              color="amber accent-4"
+          />
+        </v-col>
+
+        <v-col cols="12" xs="12" lg="4">
+          <v-autocomplete
+              append-icon="mdi-magnify"
+              class="Montserrat-Regular text-justify"
+              color="amber accent-4"
+              item-text="descripcion"
+              v-model="motivo"
+              :items="get_motivos"
+              outlined
+              label="TRÁMITE"
+              item-color="amber accent-4"
+              hide-details
+          ></v-autocomplete>
+        </v-col>
+
+        <v-col cols="12" xs="12" lg="4">
+          <v-text-field color="amber accent-4" v-model="search" append-icon="mdi-magnify"
+                        label="INICIADOR, FECHA , FOJAS  "
+                        hide-details
+                        outlined
+          />
+        </v-col>
+
+      </v-row>
+    </v-card>
 
     <v-data-table
+        @page-count="pageCount = $event"
+        :page.sync="page"
+        hide-default-footer
       :headers="headers"
       :items="data"
       :search="search"
@@ -46,6 +76,15 @@
       </template>
     </v-data-table>
 
+    <div v-if="pageCount > 0" class="text-center pt-2">
+      <v-pagination
+          v-model="page"
+          :length="pageCount"
+          :total-visible="7"
+          color="amber accent-4 pb-2"
+      ></v-pagination>
+    </div>
+
       <modal-ver-detalle-exp
             :datos="datosSeleccionado"
             :show="show_modal"
@@ -55,19 +94,40 @@
 </template>
 
 <script>
-import { mapActions } from "vuex";
+import {mapActions, mapGetters} from "vuex";
 import ModalVerDetalleExp from "../../components/dialogs/ModalVerDetalleExp";
 
 export default {
   components: { ModalVerDetalleExp },
   props: {
-    headers: Array,
     data: Array,
     loading: { type: Boolean, default: false },
   },
 
   data() {
     return {
+      headers: [
+        {text: 'Prioridad', value: 'prioridad'},
+        {text: 'N° de Expediente', value: 'nro_expediente',filter: this.nroExpedienteFilter},
+        {text: 'Extracto', value: 'extracto'},
+        {text: 'Creación', value: 'fecha_creacion'},
+        {text: 'Trámite', value: 'tramite', widh: "5%", filter:this.motivoFilter},
+        {text: 'Cuerpo', value: 'cant_cuerpos'},
+        {text: 'Fojas', value: 'fojas'},
+        {text: 'Detalle', value: 'action1', sortable: false},
+        {text: 'Realizar Pase', value: 'action2', sortable: false},
+        {class: "display-4"},
+      ],
+
+      //paginacion
+      page: 1,
+      pageCount: 0,
+
+      //filtros
+      nro_expediente: '',
+      motivo:'',
+      area:'',
+
       disabledCount: 0,
       selected: [],
       singleSelect: false,
@@ -77,7 +137,45 @@ export default {
     };
   },
 
+  computed: {
+    ... mapGetters(['get_motivos','get_areas_filtros']),
+  },
+
+  mounted() {
+    this.index_filtros();
+  },
+
   methods: {
+
+    ...mapActions(["getNuevoPase",'index_filtros']),
+
+    nroExpedienteFilter(value) {
+      // If this filter has no value we just skip the entire filter.
+      if (!this.nro_expediente) {
+        return true;
+      }
+
+      // Check if the current loop value (The dessert name)
+      // partially contains the searched word.
+      return value.toLowerCase().includes(this.nro_expediente.toLowerCase());
+    },
+
+    /**
+     * Filter for calories column.
+     * @param value Value to be tested.
+     * @returns {boolean}
+     */
+    motivoFilter(value) {
+
+      // If this filter has no value we just skip the entire filter.
+      if (!this.motivo) {
+        return true;
+      }
+
+      // Check if the current loop value (The calories value)
+      // equals to the selected value at the <v-select>.
+      return value === this.motivo;
+    },
 
     getColor(prioridades) {
       if (prioridades === "alta") return "red lighten-3";
@@ -87,8 +185,6 @@ export default {
       if (prioridades === "alta") return "mdi-exclamation-thick";
       else return "mdi-check-bold";
     },
-
-    ...mapActions(["getNuevoPase"]),
 
     detalle(item) {
       this.datosSeleccionado = item

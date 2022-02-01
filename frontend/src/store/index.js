@@ -13,6 +13,7 @@ import cedula from "./modules/cedula"
 import englose from "./modules/englose";
 import desglose from "./modules/desglose";
 import notificaciones from "./modules/notificaciones";
+import filtros from "./modules/filtros";
 
 Vue.use(Vuex)
 
@@ -31,6 +32,7 @@ export default new Vuex.Store({
         nuevo_pase,
         iniciador,
         englose,
-        cedula
+        cedula,
+        filtros
     },
 })
