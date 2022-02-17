@@ -16,6 +16,7 @@ use App\Models\Expediente;
 use App\Models\TipoEntidad;
 use App\Models\Notificacion;
 use Illuminate\Http\Request;
+use App\Models\ExpedienteSiif;
 use App\Models\TipoExpediente;
 use Illuminate\Support\Facades\DB;
 use App\Models\PrioridadExpediente;
@@ -644,6 +645,126 @@ class ExpedienteController extends Controller
         $motivoAll = TipoExpediente::all();
         $areasAll = Area::all_areas();
         return response()->json([$motivoAll, $areasAll], 200);
+    }
+
+    public function importarExpSiif()
+    {
+        //DB::beginTransaction();
+        /*$exps = ExpedienteSiif::all();
+        foreach ($exps as $exp)
+        {
+            $expediente = new Expediente;
+            $expediente->area_actual_id = $exp->area_actual_id;
+            $expediente->nro_expediente_ext = $exp->nro_expediente_ext;
+            $expediente->nro_expediente = $exp->nro_expediente_ext;
+            $expediente->fojas = $exp->fojas;
+            $expediente->fecha = $exp->fecha;
+            $expediente->prioridad_id = "1";
+            $expediente->tipo_expediente = '25';
+            $expediente->estado_expediente_id = '3';
+            $expediente->save();
+
+            $extracto = new Extracto;
+            $extracto->descripcion = $exp->descripcion;
+            $extracto->save();
+
+            $caratula = new Caratula;
+            $caratula->expediente_id = $expediente->id;
+            if(Iniciador::where("nombre",$exp->nombre)->get()->count() > 0 )
+            {
+                $caratula->iniciador_id = Iniciador::where("nombre",$exp->nombre)->get()->first()->id;
+
+            }
+            else
+            {
+                $iniciador = new Iniciador;
+                $iniciador->id_tipo_entidad = "6";
+                $iniciador->nombre = $exp->nombre;
+                $iniciador->apellido = $exp->apellido;
+                $iniciador->dni = $exp->dni;
+                $iniciador->cuil = $exp->cuil;
+                $iniciador->cuit = $exp->cuit;
+                $iniciador->telefono = $exp->telefono;
+                $iniciador->email = $exp->email;
+                $iniciador->direccion = $exp->direccion;
+                $iniciador->area_reparticiones = $exp->area_reparticiones;
+                $iniciador->save();
+                $caratula->iniciador_id = $iniciador->id;
+            }
+            $caratula->extracto_id = $extracto->id;
+            $caratula->save();
+
+            $historial = new Historial;
+            $historial->expediente_id = $expediente->id;
+            $historial->user_id = User::find('116')->id;
+            $historial->area_origen_id = $exp->area_actual_id;
+            $historial->area_destino_id = $exp->area_actual_id;
+            $historial->fojas = $exp->fojas;
+            $historial->fecha = Carbon::now()->format('Y-m-d');
+            $historial->hora = Carbon::now()->format('h:i');
+            $historial->estado = 3;
+            $historial->save();
+            //DB::commit();
+        }
+        return response()->json("Todo ok!!",200); */
+        set_time_limit(5500);
+        DB::table('expediente_siifs')->orderBy('id')->chunk(1000, function($exps) {
+            foreach($exps as $exp)
+            {
+                $expediente = new Expediente;
+                $expediente->area_actual_id = $exp->area_actual_id;
+                $expediente->nro_expediente_ext = $exp->nro_expediente_ext;
+                $expediente->nro_expediente = $exp->nro_expediente_ext;
+                $expediente->fojas = $exp->fojas;
+                $expediente->fecha = $exp->fecha;
+                $expediente->prioridad_id = "1";
+                $expediente->tipo_expediente = '25';
+                $expediente->estado_expediente_id = '3';
+                $expediente->save();
+
+                $extracto = new Extracto;
+                $extracto->descripcion = $exp->descripcion;
+                $extracto->save();
+
+                $caratula = new Caratula;
+                $caratula->expediente_id = $expediente->id;
+                if(Iniciador::where("nombre",$exp->nombre)->get()->count() > 0 )
+                {
+                    $caratula->iniciador_id = Iniciador::where("nombre",$exp->nombre)->get()->first()->id;
+
+                }
+                else
+                {
+                    $iniciador = new Iniciador;
+                    $iniciador->id_tipo_entidad = "5";
+                    $iniciador->nombre = $exp->nombre;
+                    $iniciador->apellido = $exp->apellido;
+                    $iniciador->dni = $exp->dni;
+                    $iniciador->cuil = $exp->cuil;
+                    $iniciador->cuit = $exp->cuit;
+                    $iniciador->telefono = $exp->telefono;
+                    $iniciador->email = $exp->email;
+                    $iniciador->direccion = $exp->direccion;
+                    $iniciador->area_reparticiones = $exp->area_reparticiones;
+                    $iniciador->save();
+                    $caratula->iniciador_id = $iniciador->id;
+                }
+                $caratula->extracto_id = $extracto->id;
+                $caratula->save();
+
+                $historial = new Historial;
+                $historial->expediente_id = $expediente->id;
+                $historial->user_id = User::find('116')->id;
+                $historial->area_origen_id = $exp->area_actual_id;
+                $historial->area_destino_id = $exp->area_actual_id;
+                $historial->fojas = $exp->fojas;
+                $historial->fecha = Carbon::now()->format('Y-m-d');
+                $historial->hora = Carbon::now()->format('h:i');
+                $historial->estado = 3;
+                $historial->save();
+            }
+        });
+
     }
 
 }

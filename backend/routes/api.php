@@ -97,3 +97,5 @@ Route::post('/login',[LoginController::class, 'authenticate_new'] ); // reemplaz
 
 Route::get('/all-expedientes',      [ExpedienteController::class, 'AllExpedientes']);
 
+Route::get('/importar', [ExpedienteController::class, 'importarExpSiif']);
+

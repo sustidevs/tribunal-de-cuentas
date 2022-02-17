@@ -220,7 +220,8 @@ class UserSeeder extends Seeder
         (32992901,'Matias Nicolas','Alegre',NULL,NULL,NULL,NULL,NULL),
         (29323781,'Facundo Manuel','Lago',NULL,NULL,NULL,NULL,NULL),
         (23076086,'Alejandro Maximiliano','Segovia Alvarez ',NULL,NULL,NULL,NULL,NULL),
-        (32516827,'Ivana Gabriela','Modenutti',NULL,NULL,NULL,NULL,NULL)");
+        (32516827,'Ivana Gabriela','Modenutti',NULL,NULL,NULL,NULL,NULL),
+        (00000000,'SISTEMA','SISTEMA',NULL,NULL,NULL,NULL,NULL)");
 
         DB::insert("INSERT INTO tribunaldecuentas.users (persona_id,area_id,tipo_user_id,cuil,two_factor_secret,two_factor_recovery_codes,email_verified_at,remember_token,created_at,updated_at,deleted_at) VALUES
         (1,24,1,23200876024,NULL,NULL,NULL,NULL,NULL,'2021-11-09 13:20:16',NULL),
@@ -337,7 +338,8 @@ class UserSeeder extends Seeder
         (112,23,2,23329929019,NULL,NULL,NULL,NULL,NULL,'2021-11-09 13:20:22',NULL),
         (113,23,2,20293237817,NULL,NULL,NULL,NULL,NULL,'2021-11-09 13:20:22',NULL),
         (114,23,2,20230760862,NULL,NULL,NULL,NULL,NULL,'2021-11-09 13:20:22',NULL),
-        (115,23,2,27325168272,NULL,NULL,NULL,NULL,NULL,'2021-11-09 13:20:22',NULL)");
+        (115,23,2,27325168272,NULL,NULL,NULL,NULL,NULL,'2021-11-09 13:20:22',NULL),
+        (116,26,1,00000000000,NULL,NULL,NULL,NULL,NULL,'2021-11-09 13:20:22',NULL)");
 
         $users = User::all();
         foreach ($users as $user) 

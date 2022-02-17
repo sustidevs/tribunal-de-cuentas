@@ -60,6 +60,7 @@ class TipoExpedienteSeeder extends Seeder
         array('descripcion' => 'SUELDOS'),
         array('descripcion' => 'CÉDULAS DE REGISTRACIONES'),
         array('descripcion' => 'CÉDULAS CAMBIO DE RESPONSABLE'),
+        array('descripcion' => 'SISTEMA'),
     );
 
     public function run()
