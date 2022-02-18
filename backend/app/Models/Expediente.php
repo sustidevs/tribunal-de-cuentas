@@ -281,6 +281,11 @@ class Expediente extends Model
                     $area_destino = $exp->area->descripcion;
                     $estado_expediente = $exp->estado_expediente_id;
                     break;
+                case "5": #EXPEDIENTES SIIF
+                    $area_destino_id = $exp->area_actual_id;
+                    $area_destino = $exp->area->descripcion;
+                    $estado_expediente = $exp->estado_expediente_id;
+                    break;
             }
 
             $array_expediente->push([
@@ -342,6 +347,14 @@ class Expediente extends Model
 
         #ENVIADOS
         if ($bandeja == 4) {
+            return $array_expediente->where('area_origen_id',$user->area_id)
+                                    ->where('user_id',$user->id)
+                                    ->where('estado',$estado)->values();
+        }
+        return $array_expediente;
+
+        #EXPEDIENTES SIIF
+        if ($bandeja == 5) {
             return $array_expediente->where('area_origen_id',$user->area_id)
                                     ->where('user_id',$user->id)
                                     ->where('estado',$estado)->values();

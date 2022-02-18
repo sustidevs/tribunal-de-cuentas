@@ -20,6 +20,7 @@ class EstadoExpedienteSeeder extends Seeder
             'Aceptado',
             'Enviado',
             'Recuperado',
+            'Expedientes SIIF'
         ];
         foreach($estados as $pri){
             $p = new EstadoExpediente();

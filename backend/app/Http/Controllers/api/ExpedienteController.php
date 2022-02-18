@@ -719,7 +719,7 @@ class ExpedienteController extends Controller
                 $expediente->fecha = $exp->fecha;
                 $expediente->prioridad_id = "1";
                 $expediente->tipo_expediente = '25';
-                $expediente->estado_expediente_id = '3';
+                $expediente->estado_expediente_id = '6';
                 $expediente->save();
 
                 $extracto = new Extracto;
@@ -760,7 +760,7 @@ class ExpedienteController extends Controller
                 $historial->fojas = $exp->fojas;
                 $historial->fecha = Carbon::now()->format('Y-m-d');
                 $historial->hora = Carbon::now()->format('h:i');
-                $historial->estado = 3;
+                $historial->estado = 6;
                 $historial->save();
             }
         });
