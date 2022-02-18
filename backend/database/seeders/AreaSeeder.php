@@ -22,7 +22,6 @@ class AreaSeeder extends Seeder
         array('descripcion' => 'VOCALIA B'),
         array('descripcion' => 'VOCALIA C'),
         array('descripcion' => 'VOCALIA D'),
-        array('descripcion' => 'SISTEMA'),
     );
 
     Private $arraySubAreas = array (

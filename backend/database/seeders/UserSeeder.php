@@ -117,7 +117,7 @@ class UserSeeder extends Seeder
         (25461805,'Luis Ariel','Bressan',NULL,NULL,NULL,NULL,NULL),
         (26576285,'Patricia Veronica','Macchia ',NULL,NULL,NULL,NULL,NULL),
         (34425592,'Maria Florencia','Vignolo',NULL,NULL,NULL,NULL,NULL),
-        (36304313,'Sofia','Heine ',NULL,NULL,NULL,NULL,NULL),
+        (36304313,'Sofia','Heine',NULL,NULL,NULL,NULL,NULL),
         (20183358,'Norma Beatriz','Mendoza',NULL,NULL,NULL,NULL,NULL),
         (13517833,'Estela Beatriz ','Sosa',NULL,NULL,NULL,NULL,NULL),
         (27295937,'Gustavo Jorge','Villordo',NULL,NULL,NULL,NULL,NULL),
