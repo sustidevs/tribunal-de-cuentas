@@ -260,7 +260,7 @@ class Expediente extends Model
         return $nro_exp;
     }
 
-    public static function listadoExpedientes($user_id, $estado, $bandeja)
+    public static function listadoExpedientes2($user_id, $estado, $bandeja)
     {
         $Expedientes = Expediente::where('expediente_id', null)->get();
         $user = User::findOrFail($user_id);
@@ -360,6 +360,17 @@ class Expediente extends Model
                                     ->where('estado',$estado)->values();
         }
         return $array_expediente;
+    }
+
+    public static function listadoExpedientes( $bandeja)
+    {
+        $bandeja = 5;
+        $pendientes = DB::table('expedientes')
+                    ->select('expedientes.id as expediente_id',
+                            'expedientes.estado_expediente_id')
+                    ->join('historiales', 'historiales.expediente_id', 'expedientes.id')
+                    ->where('historiales.user_id', '116')
+                    ->where('expedientes.estado_expediente_id','6');
     }
 
     /*

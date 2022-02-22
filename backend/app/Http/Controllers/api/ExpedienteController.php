@@ -490,7 +490,7 @@ class ExpedienteController extends Controller
         $estado = $request->estado;//parametro
         $bandeja = $request->bandeja;
         $user_id = Auth::user()->id;
-        $listado_expedientes = Expediente::listadoExpedientes($user_id,$estado,$bandeja);
+        $listado_expedientes = Expediente::listadoExpedientes(/*$estado*/$bandeja);
         return response()->json($listado_expedientes,200);
     }
 
