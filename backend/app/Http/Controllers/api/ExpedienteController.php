@@ -46,10 +46,10 @@ class ExpedienteController extends Controller
         return response()->json($create_exp,200);
     }
 
-    public function createNroExpediente(Request $request)
+    public function createNroExpediente()
     {
-        $año_exp = Carbon::now()->format('Y');
-        $nro_expediente = Expediente::nroExpediente($año_exp);
+        $ano_exp = Carbon::now()->format('Y');
+        $nro_expediente = Expediente::nroExpediente($ano_exp);
         return $nro_expediente;
     }
 
@@ -73,11 +73,12 @@ class ExpedienteController extends Controller
     */
     public function store(StoreExpedienteRequest $request)
     {
+        $nro_expediente = ExpedienteController::createNroExpediente();
         if ($request->validated())
         {
             DB::beginTransaction();
             $expediente = new Expediente;
-            $expediente->nro_expediente = $request->nro_expediente;
+            $expediente->nro_expediente = $nro_expediente;
             $expediente->nro_expediente_ext = $request->nro_expediente_ext;
             $expediente->fojas = $request->nro_fojas;
             $expediente->fecha = Carbon::now()->format('Y-m-d');
@@ -113,7 +114,7 @@ class ExpedienteController extends Controller
             $historial->estado = 1;
             if(($request->allFiles()) != null)
             {
-                $fileName = $request->nro_expediente;
+                $fileName = $nro_expediente;
                 $fileName = str_replace("/","-",$fileName).'.zip';
                 $path =storage_path()."/app/public/archivos_expedientes/".$fileName;
                 $historial->nombre_archivo = $fileName;
@@ -142,7 +143,7 @@ class ExpedienteController extends Controller
             if(($request->allFiles()) != null)
             {
                 $zip = new ZipArchive;
-                $fileName = $request->nro_expediente;
+                $fileName = $nro_expediente;
                 $fileName = str_replace("/","-",$fileName).'.zip';
                 $path =storage_path()."/app/public/archivos_expedientes/".$fileName;
                 if($zip->open($path ,ZipArchive::CREATE) === true)
