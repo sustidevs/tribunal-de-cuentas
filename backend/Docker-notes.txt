@@ -1,0 +1,14 @@
+
+docker-compose up -d
+
+# Creacion de la Base de datos
+docker-compose exec mysql mysql -u root
+create database tribunaldecuentas;
+exit
+
+# Migracion
+docker-compose exec myapp php artisan migrate:fresh --seed
+
+
+docker-compose exec myapp composer install
+
