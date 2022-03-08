@@ -1,21 +1,21 @@
-FROM node:9.11.1-alpine
+FROM node:lts-alpine
 
-# instalar un simple servidor http para servir nuestro contenido estático
-RUN npm install -g vue-cli
+# install simple http server for serving static content
+RUN npm install -g http-server
 
-# hacer la carpeta 'app' el directorio de trabajo actual
+# make the 'app' folder the current working directory
 WORKDIR /app
 
-# copiar 'package.json' y 'package-lock.json' (si están disponibles)
+# copy both 'package.json' and 'package-lock.json' (if available)
 COPY package*.json ./
 
-# instalar dependencias del proyecto
+# install project dependencies
 RUN npm install
 
-# copiar los archivos y carpetas del proyecto al directorio de trabajo actual (es decir, la carpeta 'app')
+# copy project files and folders to the current working directory (i.e. 'app' folder)
 COPY . .
 
-# construir aplicación para producción minificada
+# build app for production with minification
 RUN npm run build
 
 EXPOSE 8080
