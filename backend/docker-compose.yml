@@ -1,4 +1,4 @@
-version: '2'
+version: '3'
 
 services:
 
@@ -60,6 +60,19 @@ services:
       - MIX_PUSHER_APP_CLUSTER="${PUSHER_APP_CLUSTER}"
     volumes:
       - '.:/app'
+    depends_on:
+      - mysql
+    networks:
+      - tribunal-network
+
+  frontend:
+    image: tribunal-frontend
+    ports:
+      - '8080:8080'
+    environment:
+      - VUE_APP_API_URL=http://localhost:8000
+    volumes:
+      - '../frontend/:/frontend'
     depends_on:
       - mysql
     networks:
