@@ -68,6 +68,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/store-iniciador',   [IniciadorController::class, 'store']);
     Route::get('/index-iniciador',  [IniciadorController::class, 'index']);
     Route::post('/edit-iniciador',  [IniciadorController::class, 'edit']);
+    Route::get('/buscar-iniciador',  [IniciadorController::class, 'getByName']);
     Route::post('/update-iniciador',[IniciadorController::class, 'update']);
 
     /**** SUBSIDIO Y NO REINTEGRABLES ****/

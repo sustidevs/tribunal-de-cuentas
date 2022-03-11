@@ -23,10 +23,10 @@ class IniciadorController extends Controller
         return response()->json($tipo_entidad, 200);
     }
 
-    public function store(StoreIniciadorRequest $request)
+    public function store(Request $request)
     {
-        if($request->validated())
-        {
+//        if($request->validated())
+//        {
             $iniciador = new Iniciador;
             $iniciador->id_tipo_entidad = $request->tipo_entidad;
             $iniciador->nombre = $request->nombre;
@@ -40,7 +40,7 @@ class IniciadorController extends Controller
             $iniciador->area_reparticiones = $request->area_reparticiones;
             $iniciador->save();
             return response()->json($iniciador, 200);
-        }
+//        }
     }
 
     //DATOS DE PRUEBA
@@ -59,6 +59,13 @@ class IniciadorController extends Controller
     public function show(Request $request)
     {
         $iniciador = Iniciador::findOrFail($request->id);
+        return response()->json($iniciador, 200);
+    }
+
+
+    public function getByName(Request $request)
+    {
+        $iniciador = Iniciador::where('nombre','=', $request->nombre);
         return response()->json($iniciador, 200);
     }
 

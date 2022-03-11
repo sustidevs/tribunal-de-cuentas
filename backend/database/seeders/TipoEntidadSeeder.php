@@ -14,7 +14,8 @@ class TipoEntidadSeeder extends Seeder
         'Entes Autárquicos y Descentralizados',
         'Entes de Carácter Comercial – Sociedades del Estado',
         'Cuentas Especiales',
-        'Persona Física'
+        'Persona Física',
+        'SIIF'
     ];
 
     /**

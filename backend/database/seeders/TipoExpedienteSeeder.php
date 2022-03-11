@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\DB;
 
 class TipoExpedienteSeeder extends Seeder
 {
-    
+
     private $arrayTipoExpedientesNro = array(
         array('descripcion' => 'FONDO PERMANENTE','numero' => '1000'),
         array('descripcion' => 'CANCELACIÓN','numero' => '2000'),
@@ -60,6 +60,7 @@ class TipoExpedienteSeeder extends Seeder
         array('descripcion' => 'SUELDOS'),
         array('descripcion' => 'CÉDULAS DE REGISTRACIONES'),
         array('descripcion' => 'CÉDULAS CAMBIO DE RESPONSABLE'),
+        array('descripcion' => 'SIIF'),
     );
 
     public function run()
