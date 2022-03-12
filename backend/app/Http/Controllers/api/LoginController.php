@@ -76,7 +76,7 @@ class LoginController extends Controller
             
             $usuarios_agregaIniciador = array(36);              //user_id
 
-            $user->tokens()->delete(); // comentar ésta línea si se requiere asignar más de un token al usuario
+            # $user->tokens()->delete(); // comentar ésta línea si se requiere asignar más de un token al usuario
             
             if(Hash::check($request->password, $user->password))
             {
