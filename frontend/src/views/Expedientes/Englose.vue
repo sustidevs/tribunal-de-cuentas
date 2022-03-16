@@ -1,7 +1,7 @@
 <template>
   <div>
     <titulo texto="Englose" icono="mdi-text-box-multiple"/>
-    <div class="descripcion text-justify py-4">Si desea <strong>englosar</strong> expedientes, seleccione los mismos de la tabla.</div>
+    <div class="descripcion text-justify py-4">Recuerde que para acumular expedientes, el <strong>primero que seleccione será el principal.</strong></div>
     <englose :headers="headers" :data="get_expedientes"/>
   </div>
 </template>
@@ -19,7 +19,7 @@ export default {
       headers: [
         {text: 'Nro. de Expediente', value: 'nro_expediente'},
         {text: 'Extracto', value: 'extracto'},
-        {text: 'Seleccionar', value: 'action', sortable: false, align: 'center'},
+        {text: 'Seleccionar', value: 'action', align: 'center'},
       ],
     }
   },

@@ -231,4 +231,23 @@ class UserController extends Controller
             "cargo" => $user->tipouser->descripcion,
         ], 200);
     }
+
+    public function asignarPermisos(){
+        $usuarios = User::all();
+        foreach ($usuarios as $user){
+            if($user->area_id == 13){
+                $user->givePermissionTo('CREAR EXPEDIENTE', 'UNIR EXPEDIENTES');
+                    if($user->id == 36){
+                        $user->givePermissionTo('AGREGAR INICIADOR');
+                    }
+            }
+            else if($user->area_id == 15){
+                $user->givePermissionTo('AGREGAR INICIADOR');
+            }
+            else if($user->area_id == 14){
+                $user->givePermissionTo('AGREGAR CEDULA');
+            }
+        }
+        return $usuarios;        
+    }
 }

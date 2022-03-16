@@ -21,19 +21,20 @@ class PermissionSeeder extends Seeder
         
         //Permisos para el rol ADMINISTRADOR AREA
         $permiso = Permission::create(['name' => 'AGREGAR INICIADOR']);  
-        $permiso->assignRole($roleAdmArea);
-        $permiso = Permission::create(['name' => 'LISTAR EXPEDIENTES DE SU AREA']); 
-        $permiso->assignRole($roleAdmArea);
-        $permiso = Permission::create(['name' => 'LISTAR EXPEDIENTES (TODAS)']); 
-        $permiso->assignRole($roleAdmArea);
-        $permiso = Permission::create(['name' => 'REALIZAR PASES']); 
-        $permiso->assignRole($roleAdmArea);   
+        //$permiso->assignRole($roleAdmArea);
+        $permiso = Permission::create(['name' => 'CREAR EXPEDIENTE']); 
+        //$permiso->assignRole($roleAdmArea);
+        $permiso = Permission::create(['name' => 'UNIR EXPEDIENTES']); 
+        //$permiso->assignRole($roleAdmArea);
+        $permiso = Permission::create(['name' => 'AGREGAR CEDULA']); 
+        //$permiso->assignRole($roleAdmArea);   
 
         //Permisos para el rol EMPLEADO
+        /*
         $permiso = Permission::create(['name' => 'VER EXPEDIENTE']);
         $permiso->assignRole($roleEmpleado);
         $permiso = Permission::create(['name' => 'REASIGNAR PASE']); 
         $permiso->assignRole($roleEmpleado);  
-
+        */
     }
 }

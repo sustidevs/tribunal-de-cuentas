@@ -217,13 +217,14 @@ class ExpedienteController extends Controller
             }
             else
             {
-                $array = collect([]);
+                $array = collect();
                 foreach ($exp_hijos as $exp_hijo)
                 {
                     if($exp_hijo->hijos()->get()->count() > 0)
                     {
                         $array->push([
                             'nro_expediente'    => $exp_hijo->nro_expediente,
+                            'bandera'           => 1
                         ]);
                     }
                 }
@@ -667,5 +668,4 @@ class ExpedienteController extends Controller
         $areasAll = Area::all_areas();
         return response()->json([$motivoAll, $areasAll], 200);
     }
-
 }
