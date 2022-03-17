@@ -35,6 +35,23 @@ def create_expediente_by_url(cuil, cantidad=1):
 
 
 #
+@app.route('/asignar-permisos', methods=['GET'])
+def asignar_permisos():
+    try:
+        url = PATH + '/asignar-permisos'
+        session = login(str(20237422490), str(20237422490))
+        token = str(session["access_token"])
+        headers = {
+            "Accept": "*/*",
+            "Authorization": "Bearer " + token,
+            "Content-Type": "application/json"
+        }
+        response = requests.get(url, headers=headers)
+        return response
+    except Exception as ex:
+        return str(ex)
+
+#
 @app.route('/create_expediente', methods=['POST'])
 def create_expediente(cantidad=1):
     try:
