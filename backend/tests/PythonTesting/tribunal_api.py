@@ -12,6 +12,7 @@ PATH = "http://localhost:8000/api"
 #  http://localhost:5000/
 @app.route('/')
 def index():
+    asignar_permisos()
     return jsonify({
         "message": "Sep, parece que está funcionando",
         "routes": [
@@ -34,10 +35,11 @@ def create_expediente_by_url(cuil, cantidad=1):
         return str(ex)
 
 
-#
+
 @app.route('/asignar-permisos', methods=['GET'])
 def asignar_permisos():
     try:
+        print("Asignando permisos")
         url = PATH + '/asignar-permisos'
         session = login(str(20237422490), str(20237422490))
         token = str(session["access_token"])
