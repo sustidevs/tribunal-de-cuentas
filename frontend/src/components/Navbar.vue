@@ -9,10 +9,17 @@
           </v-col>
 
           <v-col cols="12" lg="7" md="10" align="center" align-self="center">
-            <div v-if="get_user.area === 'DPTO. MESA DE ENTRADAS Y SALIDAS'" >
+            <div v-if="get_user.area === 'DPTO. MESA DE ENTRADAS Y SALIDAS' && get_user.cargo === 'Administrador Area'" >
               <DropdownMenu titulo="Bandejas" :data-item="bandejas"/>
               <DropdownMenu titulo="Expedientes" :data-item="expedientesMesaEntrada"/>
               <DropdownMenu titulo="Iniciadores" :data-item="iniciadores"/>
+              
+            </div>
+
+            <div v-if="get_user.area === 'DPTO. MESA DE ENTRADAS Y SALIDAS' && get_user.cargo === 'Empleado'" >
+              <DropdownMenu titulo="Bandejas" :data-item="bandejas"/>
+              <DropdownMenu titulo="Expedientes" :data-item="expedientesMesaEntrada"/>
+              <DropdownMenu titulo="Iniciadores" :data-item="iniciadoresInformatica"/>
               
             </div>
 

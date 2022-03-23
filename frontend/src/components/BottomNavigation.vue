@@ -1,9 +1,15 @@
 <template>
     <v-bottom-navigation background-color="#393b44" color="#FACD89" fixed height="70">
-      <div v-if="get_user.area === 'DPTO. MESA DE ENTRADAS Y SALIDAS'" class="Montserrat-SemiBold d-flex flex-row">
+      <div v-if="get_user.area === 'DPTO. MESA DE ENTRADAS Y SALIDAS' && get_user.cargo === 'Administrador Area'" class="Montserrat-SemiBold d-flex flex-row">
         <BottomSheets titulo="BANDEJAS" icono="mdi-inbox-full" :listDesplegable="bandejas"/>
         <BottomSheets titulo="EXPEDIENTES" icono="mdi-file-document-multiple-outline" :listDesplegable="expedientesMesaEntrada"/>
         <BottomSheets titulo="INICIADORES" icono="mdi-account-group-outline" :listDesplegable="iniciadores"/>
+      </div>
+
+      <div v-if="get_user.area === 'DPTO. MESA DE ENTRADAS Y SALIDAS' && get_user.cargo === 'Empleado'" class="Montserrat-SemiBold d-flex flex-row">
+        <BottomSheets titulo="BANDEJAS" icono="mdi-inbox-full" :listDesplegable="bandejas"/>
+        <BottomSheets titulo="EXPEDIENTES" icono="mdi-file-document-multiple-outline" :listDesplegable="expedientesMesaEntrada"/>
+        <BottomSheets titulo="INICIADORES" icono="mdi-account-group-outline" :listDesplegable="iniciadoresInformatica"/>
       </div>
 
       <div v-if="(get_user.area === 'VOCALIA A') || (get_user.area === 'VOCALIA B') || (get_user.area === 'VOCALIA C') || (get_user.area === 'VOCALIA D') || (get_user.area === 'RELATORIA A') || (get_user.area === 'RELATORIA B') || (get_user.area === 'RELATORIA C') || (get_user.area === 'RELATORIA D')" class="Montserrat-SemiBold d-flex flex-row">
