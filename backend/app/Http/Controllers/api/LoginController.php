@@ -71,19 +71,35 @@ class LoginController extends Controller
         if(isset($user->id))
         {
             $user->tokens()->delete(); // comentar ésta línea si se requiere asignar más de un token al usuario
-
-            $token = $user->createToken('token')->plainTextToken;
+            if(Hash::check($request->password, $user->password))
+            {
+                $token = $user->createToken('token')->plainTextToken;
+                return response()->json([
+                    "status" => true,
+                    "mensaje" => "usuario logueado exitosamente",
+                    "nombre_apellido" => $user->persona->nombre ." ". $user->persona->apellido,
+                    "cuil" => $user->cuil,
+                    "id" => $user->area->id,
+                    "area" => $user->area->descripcion,
+                    "cargo" => $user->tipouser->descripcion,
+                    "access_token" => $token,
+                    "token_type" => "login token"
+                ], 200);
+            }
+            else
+            {
+                return response()->json([
+                    "status" => false,
+                    "mensaje" => "contraseña incorrecta",
+                ], 404);
+            }
+        }
+        else
+        {
             return response()->json([
-                "status" => true,
-                "mensaje" => "usuario logueado exitosamente",
-                "nombre_apellido" => $user->persona->nombre ." ". $user->persona->apellido,
-                "cuil" => $user->cuil,
-                "id" => $user->area->id,
-                "area" => $user->area->descripcion,
-                "cargo" => $user->tipouser->descripcion,
-                "access_token" => $token,
-                "token_type" => "login token"
-            ], 200);
+                "status" => false,
+                "mensaje" => "usuario y/o contraseña incorrecta",
+            ], 404);
         }               
     }
 }
