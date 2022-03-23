@@ -7,6 +7,7 @@ const state = {
     status: JSON.parse(localStorage.getItem('status') || "false" ),
     token: JSON.parse(localStorage.getItem('token') || "{}" ),
     nro: JSON.parse(localStorage.getItem('nro') || "{}" ),
+    cargo: JSON.parse(localStorage.getItem('cargo') || "{}" ),
     btn_login: false,
 
     //errores login
@@ -30,6 +31,7 @@ const getters = {
     get_loading: state => state.loading,
     get_btn_login: state => state.btn_login,
     get_token: state => state.token,
+    get_cargo: state => state.cargo,
 
     get_restart: state => state.restart,
     get_errores: state => state.errores,
@@ -75,6 +77,7 @@ const actions = {
                     localStorage.setItem('status',JSON.stringify(response.data.status))
                     localStorage.setItem('token',JSON.stringify(response.data.access_token))
                     localStorage.setItem('nro',JSON.stringify(response.data.id))
+                    localStorage.setItem('cargo',JSON.stringify(response.data.cargo))
                     commit('set_user', response.data)
                     commit('set_logueo', true)
 
@@ -132,6 +135,7 @@ const mutations = {
         localStorage.removeItem('token')
         localStorage.removeItem('status')
         localStorage.removeItem('nro')
+        localStorage.removeItem('cargo')
     },
     set_aceptado: (state,aceptado) => state.aceptado = aceptado,
     set_logueo: (state, logueado) => state.logueado = logueado,
