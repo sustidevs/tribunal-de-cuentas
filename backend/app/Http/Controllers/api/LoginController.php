@@ -70,7 +70,7 @@ class LoginController extends Controller
         
         if(isset($user->id))
         {
-            $user->tokens()->delete(); // comentar ésta línea si se requiere asignar más de un token al usuario
+            // $user->tokens()->delete(); // comentar ésta línea si se requiere asignar más de un token al usuario
 
             $token = $user->createToken('token')->plainTextToken;
             return response()->json([
