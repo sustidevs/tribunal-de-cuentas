@@ -12,7 +12,6 @@ PATH = "http://localhost:8000/api"
 #  http://localhost:5000/
 @app.route('/')
 def index():
-    asignar_permisos()
     return jsonify({
         "message": "Sep, parece que está funcionando",
         "routes": [
@@ -34,24 +33,6 @@ def create_expediente_by_url(cuil, cantidad=1):
     except Exception as ex:
         return str(ex)
 
-
-
-@app.route('/asignar-permisos', methods=['GET'])
-def asignar_permisos():
-    try:
-        print("Asignando permisos")
-        url = PATH + '/asignar-permisos'
-        session = login(str(20237422490), str(20237422490))
-        token = str(session["access_token"])
-        headers = {
-            "Accept": "*/*",
-            "Authorization": "Bearer " + token,
-            "Content-Type": "application/json"
-        }
-        response = requests.get(url, headers=headers)
-        return response
-    except Exception as ex:
-        return str(ex)
 
 #
 @app.route('/create_expediente', methods=['POST'])
@@ -239,7 +220,7 @@ class Expediente:
                     "tipo_exp_id": random.randint(1, 24),
                     "monto": random.randint(1, 500),
                     "user_id": random.randint(1, 115),
-                    "area_id": 13,  # random.randint(1, 25),
+                    "area_id":  random.randint(1, 25),
                     "iniciador_id": random.randint(1, 47),
                     "descripcion_extracto": "Expediente con " + str(nro_fojas) + " fojas."}
                 response = requests.post(url, json=expediente, headers=headers)
@@ -305,5 +286,5 @@ class Expediente:
 if __name__ == '__main__':
     app.run(host="0.0.0.0", port=5000, debug=True)
 
-# docker build -t flaskapp .
-# docker run -it --publish 5000:5000 flaskapp
+# docker build -t tribunal_service .
+# docker run -it --publish 5000:5000 tribunal_service
