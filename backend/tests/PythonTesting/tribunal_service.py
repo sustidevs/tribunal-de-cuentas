@@ -55,6 +55,24 @@ def create_from_csv(cuil):
     return Expediente.create_from_csv(session)
 
 
+@app.route('/permisos/<string:cuil>')
+def asignar_permisos(cuil):
+    try:
+            token = str(login(cuil, cuil)['access_token'])
+            url_permisos = PATH + '/asignar-permisos'
+            headers = {
+                "Accept": "*/*",
+                "Authorization": "Bearer " + token,
+                "Content-Type": "application/json"
+            }
+            result = requests.post(url_permisos, headers=headers)
+            result = json.loads(result.text)
+            return result
+        except Exception as ex:
+            print(ex)
+            return ex
+
+
 def login(cuil, password):
     try:
         req_url = PATH + "/login?cuil=" + str(cuil) + "&password=" + str(password)
