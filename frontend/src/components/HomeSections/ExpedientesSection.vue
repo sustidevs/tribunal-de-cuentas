@@ -23,7 +23,7 @@
       <ButtonBig v-if="(get_user.area === 'DPTO. MESA DE ENTRADAS Y SALIDAS')" class="my-2 mr-6" texto="Nuevo" link="/nuevo-expediente" icon="mdi-text-box-plus"/>
       <ButtonBigTooltip class="my-2 mr-6" texto="Pase" link="/mis-expedientes" icon="mdi-file-move" tooltip="Mis expedientes"/>
       <ButtonBig class="my-2 mr-6" texto="Recuperar" link="/recuperar" icon="mdi-file-undo"/>
-      <ButtonBigTooltip v-if="(get_user.area === 'DPTO. MESA DE ENTRADAS Y SALIDAS')" class="my-2 mr-6" texto="Englose" link="/englose" icon="mdi-file-plus" tooltip="Acumulación"/>
+      <ButtonBigTooltip v-if="(get_user.area === 'DPTO. MESA DE ENTRADAS Y SALIDAS')" class="my-2 mr-6" texto="Acumular" link="/englose" icon="mdi-file-plus" tooltip="Acumulación"/>
       <ButtonBig v-if="(get_user.area === 'DPTO. MESA DE ENTRADAS Y SALIDAS')" class="my-2 mr-6" texto="Desglose" link="/desglose" icon="mdi-file-percent"/>
   </div>
 </template>

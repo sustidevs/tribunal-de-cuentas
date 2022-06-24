@@ -1,6 +1,6 @@
 <template>
   <div>
-    <titulo texto="Englose" icono="mdi-text-box-multiple"/>
+    <titulo texto="Acumular" icono="mdi-text-box-multiple"/>
     <div class="descripcion text-justify py-4">Recuerde que para acumular expedientes, el <strong>primero que seleccione será el principal.</strong></div>
     <englose :headers="headers" :data="get_expedientes"/>
   </div>

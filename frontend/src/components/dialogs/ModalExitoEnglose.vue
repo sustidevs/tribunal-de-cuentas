@@ -1,7 +1,7 @@
 <template>
   <v-dialog v-model="show" width="1200px" content-class="round" persistent>
     <v-card class="px-7 pt-1">
-      <titulo texto="Englose realizado con éxito" icono="mdi-check-all"/>
+      <titulo texto="Acumulación exitosa" icono="mdi-check-all"/>
       <!-- <v-row class="mt-5 mb-2">
         <v-col cols="10">
           <div class="Montserrat-Bold titleBig text-justify">Englose realizado con éxito</div>
