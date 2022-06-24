@@ -195,10 +195,10 @@ class ExpedienteController extends Controller
         $exp_hijos = Expediente::find($request->exp_hijos);
         $expedientes_hijos = "";
 
-        if (1 + $exp_padre->hijos()->get()->count() + $exp_hijos->count()  > 15)
+        if (1 + $exp_padre->hijos()->get()->count() + $exp_hijos->count()  > 5)
             {
                 return response()->json([
-                    "Mensaje" => 'No se pueden acumular mas de 15 expedientes al expediente ' . $exp_padre->nro_expediente],400);
+                    "message" => 'No se pueden acumular mas de 15 expedientes al expediente ' . $exp_padre->nro_expediente],400);
             }
         foreach ($exp_hijos as $exp_hijo)
         {

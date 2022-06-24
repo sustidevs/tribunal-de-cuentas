@@ -93,6 +93,25 @@
                 </div>
               </v-card>
             </v-dialog>
+            <!--A partir de acá es lo creado por mi.
+            Primero que nada, voy a crear un nuevo Vue Dialog para hacerlo saltar por cantidad -->
+            <v-dialog
+              v-model="dialog_cantidad"
+              transition="dialog-top-transition"
+              max-width="600"
+            >
+              <v-card>
+                <v-toolbar color="#FACD89" dark>
+                  <v-icon x-large>mdi-alert-circle</v-icon>
+                  <v-row justify="center">
+                    <h2 class="white--text">¡Oops!</h2>
+                  </v-row>
+                </v-toolbar>
+                <div class="text-h6 pa-10 font-weight-regular">
+                  Supera la cantidad de expedientes acumulables.
+                </div>
+              </v-card>
+            </v-dialog>
           </template>
         </v-data-table>
       </v-col>
@@ -245,6 +264,7 @@ export default {
       confirmar: false,
       padre_aux: [],
       dialog_ya_hay_padre: false,
+      dialog_cantidad: false
     };
   },
 
@@ -263,25 +283,36 @@ export default {
           this.dialog_ya_hay_padre = false;
         }, 2000);
     },
+    dialog_cantidad(valu) {
+      valu &&
+        setTimeout(() => {
+          this.dialog_cantidad = false;
+        }, 2000);
+    },
   },
 
   methods: {
     ...mapActions(["englosar"]),
 
     confirmarEnglose() {
-      let expediente_hijo = [];
+      try{
+        let expediente_hijo = [];
 
-      for (var i = 1; i < this.seleccionados.length; i++) {
-        expediente_hijo.push(this.seleccionados[i].expediente_id);
+        for (var i = 1; i < this.seleccionados.length; i++) {
+          expediente_hijo.push(this.seleccionados[i].expediente_id);
+        }
+
+        let expedientes_englose = {
+          fojas_aux: this.seleccionados[0].fojas,
+          exp_padre: this.seleccionados[0].expediente_id,
+          exp_hijos: expediente_hijo,
+        };
+        this.englosar(expedientes_englose);
+        //this.show = true;
       }
-
-      let expedientes_englose = {
-        fojas_aux: this.seleccionados[0].fojas,
-        exp_padre: this.seleccionados[0].expediente_id,
-        exp_hijos: expediente_hijo,
-      };
-      this.englosar(expedientes_englose);
-      this.show = true;
+      catch{
+        console.log("Ya no quiero vivirs")
+      }
     },
 
     padre_asignar(item) {
