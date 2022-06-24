@@ -17,7 +17,8 @@ def index():
         "routes": [
             "http://localhost:5000/create_expediente/20237422490/3",
             "http://localhost:5000/create_expediente/20237422490",
-            "http://localhost:5000/create_from_csv/20237422490"
+            "http://localhost:5000/create_from_csv/20237422490",
+            "http://localhost:5000/permisos"
         ]
     })
 
@@ -55,22 +56,23 @@ def create_from_csv(cuil):
     return Expediente.create_from_csv(session)
 
 
-@app.route('/permisos/<string:cuil>')
-def asignar_permisos(cuil):
+@app.route('/permisos')
+def asignar_permisos():
     try:
-            token = str(login(cuil, cuil)['access_token'])
-            url_permisos = PATH + '/asignar-permisos'
-            headers = {
-                "Accept": "*/*",
-                "Authorization": "Bearer " + token,
-                "Content-Type": "application/json"
-            }
-            result = requests.post(url_permisos, headers=headers)
-            result = json.loads(result.text)
-            return result
-        except Exception as ex:
-            print(ex)
-            return ex
+        cuil = "20237422490"
+        token = str(login(cuil, cuil)['access_token'])
+        url_permisos = PATH + '/asignar-permisos'
+        headers = {
+            "Accept": "*/*",
+            "Authorization": "Bearer " + token,
+            "Content-Type": "application/json"
+        }
+        result = requests.post(url_permisos, headers=headers)
+        result = json.loads(result.text)
+        return result
+    except Exception as ex:
+        print(ex)
+        return ex
 
 
 def login(cuil, password):
